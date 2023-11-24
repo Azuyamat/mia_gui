@@ -2,7 +2,7 @@ import styles from "../styles/components/Nav.module.css"
 import {FaCog, FaPaperPlane, FaSearch} from "react-icons/fa";
 import {useEffect, useState} from "react";
 
-export default function Nav({onSubmit, path, toggleSettings}) {
+export default function Nav({onSubmit, path}) {
 
     function handleInput() {
         const text = document.getElementById("query").value;
@@ -24,7 +24,6 @@ export default function Nav({onSubmit, path, toggleSettings}) {
                 spellCheck={false}
             />
             <button className={styles.icon} onClick={handleInput}><FaPaperPlane/></button>
-            <button className={styles.icon} onClick={toggleSettings}><FaCog/></button>
         </nav>
     )
 }

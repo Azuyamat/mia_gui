@@ -27,10 +27,17 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     width: 100%;
-    padding: 1rem;
+    padding: .5rem 1rem;
+    cursor: pointer;
 
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     gap: 10px;
+}
+
+.container ul li[data-selected="true"] {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background: var(--background);
 }

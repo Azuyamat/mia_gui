@@ -3,20 +3,17 @@ import {useEffect, useState} from "react";
 import {FaChevronDown, FaChevronUp, FaTimes} from "react-icons/fa";
 import {invoke} from "@tauri-apps/api/tauri";
 
-export default function Settings({isOpen}) {
-    if (!isOpen) return null;
-
+export default function Settings() {
     const [config, setConfig] = useState({});
 
     useEffect(() => {
-        if (!isOpen) return;
         async function getConfig() {
             let miaConfig = await invoke("get_config");
             console.log(miaConfig);
             setConfig(miaConfig);
         }
         getConfig();
-    }, [isOpen]);
+    }, []);
 
     return (
         <div className={styles.container}>

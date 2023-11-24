@@ -49,8 +49,13 @@ const langIcons = {
 export default function FileExplorer({dir, setDir}) {
     console.log(dir)
     if (!dir || !dir.exists) return (
-        <div className={styles.center}>
-            <h1>Input a valid directory</h1>
+        <div className={styles.container}>
+            <div className={styles.context}>
+                <div className={styles.row}>
+                    <div className={styles.important}></div>
+                </div>
+            </div>
+            <ul className={styles.repository}/>
         </div>
     )
 
@@ -79,7 +84,8 @@ export default function FileExplorer({dir, setDir}) {
             <ul className={styles.repository}>
                 {dir.paths.map((entry, i) => {
                     const type = entry.entry_type.toLowerCase();
-                    if (type === "directory") return <Directory key={i} name={entry.name} path={entry.path} blacklisted={entry.blacklisted}/>
+                    if (type === "directory") return <Directory key={i} name={entry.name} path={entry.path}
+                                                                blacklisted={entry.blacklisted}/>
                     return <File key={i} name={entry.name} language={entry.language} blacklisted={entry.blacklisted}/>
                 })}
             </ul>
@@ -109,7 +115,7 @@ export default function FileExplorer({dir, setDir}) {
             <li className={styles.file} style={{'--color': icon.color}} data-blacklisted={blacklisted}>
                 <i>{icon.icon}</i>
                 <p>{name}</p>
-                <button className={styles.dots}><HiDotsHorizontal /></button>
+                <button className={styles.dots}><HiDotsHorizontal/></button>
             </li>
         )
     }

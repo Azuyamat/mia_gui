@@ -13,7 +13,7 @@
     -webkit-text-size-adjust: 100%;
 
     --primary-color: white;
-    --accent-color: #ffffff;
+    --accent-color: #ffaf97;
     --background: rgb(30, 30, 30);
 }
 
@@ -24,7 +24,7 @@
 body, html {
     padding: 0;
     margin: 0;
-}un dev
+}
 
 
 body {
