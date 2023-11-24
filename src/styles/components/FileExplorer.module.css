@@ -1,0 +1,155 @@
+.center {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.container {
+    height: 90vh;
+    width: 100%;
+    margin: 1rem auto;
+    background: var(--background);
+    overflow-y: auto;
+    border: 1px solid rgba(107, 107, 107, 0.81);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+
+
+.container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container ul p {
+    margin: 0;
+}
+
+.context {
+    width: 100%;
+    background: rgba(28, 28, 28, 0.88);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+
+    position: sticky;
+    top: 0;
+
+    backdrop-filter: blur(10px);
+    padding: 10px 0;
+}
+
+.context .row {
+    width: 99%;
+    margin: 0 auto;
+    height: 100%;
+    color: #d7d7d7;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: .2rem 0;
+    gap: 10px;
+}
+
+.entries {
+    background: rgba(40, 40, 40, 0.51);
+    padding: .5rem 1rem;
+}
+
+.directory, .file {
+    background: rgba(38, 38, 38, 0.81);
+
+    display: flex;
+    flex-flow: row nowrap;
+    gap: .5rem;
+
+    padding: .4rem 1rem;
+}
+
+.directory {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.directory:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.directory button, .file button {
+    background: transparent;
+    color: var(--primary-color);
+    visibility: hidden;
+}
+
+.directory:hover button, .file:hover button {
+    visibility: visible;
+    cursor: pointer;
+}
+
+.file {
+    --color: white;
+    background: rgba(19, 19, 19, 0.18);
+    padding: .3rem 1rem .2rem 1rem;
+    color: var(--color);
+}
+
+.file:nth-of-type(even) {
+    background: rgba(19, 19, 19, 0.31);
+}
+
+.file *, .directory * {
+    user-select: none;
+}
+
+.file:hover {
+    background: rgba(38, 38, 38, 0.38);
+}
+
+
+.path {
+    color: rgba(255, 255, 255, 0.37);
+}
+
+.pathButton {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.05);
+    color: white;
+    font-size: 1rem;
+    padding: .1rem .5rem;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    user-select: none;
+}
+
+.pathButton::after {
+    content: '>';
+    margin-left: .3rem;
+    font-family: Consolas, monospace;
+}
+
+.pathButton:hover {
+    background: rgb(47, 47, 47);
+    border: 1px solid rgba(107, 107, 107, 0.81);
+    color: white;
+}
+
+.important {
+    background: rgba(0, 0, 0, 0.29);
+    padding: .5rem .5rem;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 1px solid rgba(107, 107, 107, 0.81);
+    font-family: Consolas, monospace;
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+
+.directory[data-blacklisted="true"], .file[data-blacklisted="true"] {
+    background: rgba(255, 91, 91, 0.12);
+    border-left: 5px solid #ff8989;
+}
