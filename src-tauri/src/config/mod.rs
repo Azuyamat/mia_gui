@@ -8,7 +8,6 @@ pub fn get_config() -> Config {
 
 #[tauri::command]
 pub fn save_config(config: Config) {
-    println!("{:?}", config);
     confy::store("mia", None, config).expect("Failed to save config");
 }
 

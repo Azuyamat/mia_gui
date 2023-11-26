@@ -7,7 +7,6 @@ mod errors;
 
 use repository::get_dir;
 use config::{get_config, save_config};
-use repository::LANGUAGES;
 
 fn main() {
     tauri::Builder::default()

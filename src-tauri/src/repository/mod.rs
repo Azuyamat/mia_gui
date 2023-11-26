@@ -1,12 +1,11 @@
 mod structs;
 mod utils;
+mod zip;
 
 use std::string::ToString;
 use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
 use crate::{
     config::{get_config},
-    errors::MiaError,
 };
 use crate::repository::structs::{Entry, EntryType, Language, Repository};
 use crate::repository::utils::get_language_from_extension;
@@ -30,28 +29,25 @@ pub fn get_dir(path: &str) -> Option<Repository> {
         let path = entry.path();
 
         let name = &entry.file_name().into_string().unwrap();
-        let extension = match &path.extension() {
-            Some(ext) => Some(ext.to_str().unwrap().to_string()),
-            None => None
-        };
+        let extension = path.extension().as_ref().map(|ext| ext.to_str().unwrap().to_string());
         let entry_type = if path.is_dir() { EntryType::Directory } else { EntryType::File };
 
         Entry {
             name: name.to_string(),
             extension: extension.clone(),
-            entry_type: entry_type,
+            entry_type,
             path: path.to_str().unwrap().to_string(),
             language: get_language_from_extension(&extension),
             blacklisted: if path.is_dir() {
                 config.blacklisted_folder_names.contains(&name.to_string())
             } else {
                 config.blacklisted_file_names.contains(&name.to_string()) || config.blacklisted_file_extensions.contains(&extension.unwrap_or("".to_string()))
-            }
+            },
         }
     }).collect();
     Some(Repository {
         path: path.to_string(),
         exists: true,
-        paths
+        paths,
     })
 }
