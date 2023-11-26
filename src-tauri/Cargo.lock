@@ -1574,10 +1574,12 @@ name = "mia"
 version = "0.0.0"
 dependencies = [
  "confy",
+ "once_cell",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
+ "thiserror",
 ]
 
 [[package]]
