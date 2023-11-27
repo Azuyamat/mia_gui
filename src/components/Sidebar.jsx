@@ -1,15 +1,17 @@
 import styles from "../styles/components/Sidebar.module.css"
-import {FaCog, FaCookieBite, FaHome} from "react-icons/fa";
+import {FaCog, FaCookieBite, FaFolder, FaHome, FaStar} from "react-icons/fa";
 import {FaNoteSticky} from "react-icons/fa6";
+import {useContext} from "react";
+import {ConfigContext} from "../contexts/ConfigContext.jsx";
 
 const items = {
     "files": <FaHome/>,
-    "notes": <FaNoteSticky/>,
-    "settings": <FaCog/>,
-    "about": <FaCookieBite/>
+    "settings": <FaCog/>
 }
 
-export default function Sidebar({selected, setSelected}) {
+export default function Sidebar({selected, setSelected, getDir, currentPath}) {
+    const {config} = useContext(ConfigContext)
+
     return (
         <div className={styles.container}>
             <ul>
@@ -22,6 +24,30 @@ export default function Sidebar({selected, setSelected}) {
                         </li>
                     )
                 })}
+                <li className={styles.divider}/>
+                {config?.favorite_dirs?.map((dir) => {
+                    return (
+                        <li key={dir} data-selected={currentPath === dir} onClick={() => {
+                            setSelected("files")
+                            getDir(dir)
+                        }}>
+                            <FaStar/> {dir}
+                        </li>
+                    )
+                })}
+                <li className={styles.divider}/>
+                {config.default_dir && (
+                    <li data-selected={currentPath === config.default_dir} onClick={() => {
+                        setSelected("files")
+                        getDir(config.default_dir)
+                    }}><FaFolder/> {config.default_dir}</li>
+                )}
+                {config.output_dir && (
+                    <li data-selected={currentPath === config.output_dir} onClick={() => {
+                        setSelected("files")
+                        getDir(config.output_dir)
+                    }}><FaFolder/> {config.output_dir}</li>
+                )}
             </ul>
         </div>
     )

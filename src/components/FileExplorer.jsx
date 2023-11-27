@@ -2,52 +2,60 @@ import styles from "../styles/components/FileExplorer.module.css"
 import {FaCss3, FaFolder, FaJava, FaPython, FaRust} from "react-icons/fa";
 import {HiDotsHorizontal} from "react-icons/hi";
 import {FaC, FaFile, FaFileZipper} from "react-icons/fa6";
-import {BiLogoJavascript} from "react-icons/bi";
+import {BiCode, BiLogoJavascript, BiLogoVisualStudio} from "react-icons/bi";
 import {CgCPlusPlus} from "react-icons/cg";
-import {SiCsharp} from "react-icons/si";
+import {SiCsharp, SiIntellijidea} from "react-icons/si";
+import {useContext, useState} from "react";
+import {DiIntellij} from "react-icons/di";
+import {invoke} from "@tauri-apps/api/tauri";
+import {AiFillFileZip, AiFillStar} from "react-icons/ai";
+import {ConfigContext} from "../contexts/ConfigContext.jsx";
+import {ToastContext} from "../contexts/ToastContext.jsx";
 
 // Language icons
 const langIcons = {
     "Rust": {
         icon: <FaRust/>,
-        color: "#ffe2e2"
+        color: "#ff964f"
     },
     "Python": {
         icon: <FaPython/>,
-        color: "#e0ffc7"
+        color: "#9cff4b"
     },
     "JavaScript": {
         icon: <BiLogoJavascript/>,
-        color: "#fffacf"
+        color: "#ffea40"
     },
     "CSS": {
         icon: <FaCss3/>,
-        color: "#cce8ff"
+        color: "#5582ff"
     },
     "Java": {
         icon: <FaJava/>,
-        color: "#fff4cb"
+        color: "#ff4d4d"
     },
     "C": {
         icon: <FaC/>,
-        color: "#ffcac8"
+        color: "#b43fff"
     },
     "Cpp": {
         icon: <CgCPlusPlus/>,
-        color: "#efc8ff"
+        color: "#3e49ff"
     },
     "CSharp": {
         icon: <SiCsharp/>,
-        color: "#ccdbff"
+        color: "#3370ff"
     },
     "Zip": {
         icon: <FaFileZipper/>,
-        color: "#ffdcca"
+        color: "#77ffa7"
     }
 }
 
 export default function FileExplorer({dir, setDir}) {
-    console.log(dir)
+    const {config, saveConfig} = useContext(ConfigContext);
+    const {showToast} = useContext(ToastContext);
+
     if (!dir || !dir.exists) return (
         <div className={styles.container}>
             <div className={styles.context}>
@@ -82,41 +90,119 @@ export default function FileExplorer({dir, setDir}) {
                 </div>
             </div>
             <ul className={styles.repository}>
-                {dir.paths.map((entry, i) => {
+                {dir.paths.sort((a, b) => {
+                    if (a.entry_type === b.entry_type) return 0;
+                    if (a.entry_type === "Directory") return -1;
+                    return 1;
+                }).map((entry, i) => {
                     const type = entry.entry_type.toLowerCase();
-                    if (type === "directory") return <Directory key={i} name={entry.name} path={entry.path}
-                                                                blacklisted={entry.blacklisted}/>
-                    return <File key={i} name={entry.name} language={entry.language} blacklisted={entry.blacklisted}/>
+                    if (type === "directory")
+                        return <Directory key={i} name={entry.name} path={entry.path} blacklisted={entry.blacklisted}/>
+                    return <File key={i} name={entry.name} language={entry.language?.name}
+                                 blacklisted={entry.blacklisted} extension={entry.extension} path={entry.path}/>
                 })}
             </ul>
         </div>
     )
 
     function Directory({name, path, blacklisted}) {
+        const [contextMenuOpen, setContextMenuOpen] = useState(false);
         return (
-            <li className={styles.directory} onClick={() => {
+            <li className={styles.directory} onContextMenu={(e) => {
+                e.preventDefault();
+                setContextMenuOpen(true)
+            }} onClick={() => {
+                if (contextMenuOpen) return;
                 setDir(path)
             }} data-blacklisted={blacklisted}>
-                <i><FaFolder/></i>
-                <p>{name}</p>
-                <p><span className={styles.path}>{path || ""}</span></p>
-                <button className={styles.dots}><HiDotsHorizontal/></button>
+                <div className={styles.flex}>
+                    <i><FaFolder/></i>
+                    <p>{name}</p>
+                    <p><span className={styles.path}>{path || ""}</span></p>
+                </div>
+                <ContextMenu open={contextMenuOpen} setOpen={setContextMenuOpen} path={path} isDir={true}/>
             </li>
         )
     }
 
-    function File({name, language, blacklisted}) {
+    function File({name, language, blacklisted, extension, path}) {
+        const [contextMenuOpen, setContextMenuOpen] = useState(false);
         const icon = langIcons[language] || {
             icon: <FaFile/>,
             color: "#efefef"
         };
 
+
         return (
-            <li className={styles.file} style={{'--color': icon.color}} data-blacklisted={blacklisted}>
-                <i>{icon.icon}</i>
-                <p>{name}</p>
-                <button className={styles.dots}><HiDotsHorizontal/></button>
+            <li className={styles.file} style={{'--color': icon.color}} data-blacklisted={blacklisted}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    setContextMenuOpen(true)
+                }}>
+                <div className={styles.flex}>
+                    <i>{icon.icon}</i>
+                    <p>{name.replace(`.${extension}`, "")}</p>
+                </div>
+
+                <p className={styles.extension}>{extension}</p>
+                <ContextMenu open={contextMenuOpen} setOpen={setContextMenuOpen} path={path} isDir={false}/>
             </li>
         )
     }
+
+    function ContextMenu({open, setOpen, path, isDir}) {
+        if (!open) return null;
+        return (
+            <div className={styles.contextMenuFatWrapper} onClick={(e) => {
+                e.preventDefault();
+                setOpen(false)
+            }}>
+                <div className={styles.contextMenu}>
+                    <h3>{path}</h3>
+                    <p>Context actions</p>
+                    {!isDir && (
+                        <ul>
+                        </ul>
+                    )}
+                    {isDir && (
+                        <ul>
+                            <li onClick={() => {
+                                const newConfig = config;
+                                if (newConfig.favorite_dirs?.includes(path)) {
+                                    newConfig.favorite_dirs = newConfig.favorite_dirs.filter((dir) => dir !== path);
+                                    saveConfig(newConfig);
+                                    showToast(`Removed ${path} from favorites`, "star")
+                                    return;
+                                }
+                                newConfig.favorite_dirs = [...newConfig.favorite_dirs || [], path];
+                                saveConfig(newConfig);
+                                showToast(`Added ${path} to favorites`, "star")
+                            }}>
+                                <AiFillStar/> {config.favorite_dirs?.includes(path) ? "Unfavorite" : "Favorite"}
+                            </li>
+                            <li onClick={() => {
+                                invoke("zip_dir", {path}).then((res) => {
+                                    showToast(`Zipped directory to ${res.output_path}`, "success")
+                                }).catch((err) => {
+                                    showToast(`Couldn't zip directory ${err.message}`, "error")
+                                })
+                            }}><FaFileZipper/> Zip</li>
+                            {config.ides.map((ide, i) => {
+                                return <li key={i} onClick={() => openInIde(path, ide.command)}><BiCode/> Open
+                                    with {ide.name}</li>
+                            })}
+                        </ul>
+                    )}
+                </div>
+            </div>
+        )
+    }
+}
+
+function openInIde(path, ide = "idea") {
+    console.log("Opening in IDE ", ide)
+    invoke("open_in_ide", {
+        path: path,
+        ide: ide
+    }).then(res => console.log(res));
 }

@@ -1,0 +1,57 @@
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+    z-index: 9999;
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    background: rgba(44, 44, 44, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: appear 500ms ease-in-out;
+}
+
+@keyframes appear {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/*
+Specific styles
+ */
+.toast[data-style="hidden"] {
+    display: none;
+}
+
+.toast[data-style="info"]:before {
+    content: '📝️';
+    margin-right: 10px;
+    filter: drop-shadow(0 0 5px rgb(255, 255, 255));
+}
+
+.toast[data-style="success"]:before {
+    content: '✅';
+    margin-right: 10px;
+    filter: drop-shadow(0 0 5px rgb(26, 255, 0));
+}
+
+.toast[data-style="error"]:before {
+    content: '❌';
+    margin-right: 10px;
+    filter: drop-shadow(0 0 5px rgb(255, 0, 0));
+}
+
+.toast[data-style="star"]:before {
+    content: '⭐';
+    margin-right: 10px;
+    filter: drop-shadow(0 0 5px rgb(255, 255, 0));
+}
