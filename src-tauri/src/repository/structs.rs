@@ -28,3 +28,13 @@ pub enum EntryType {
     File,
     Directory
 }
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct IDE {
+    pub name: String,
+    pub command: String,
+
+    pub icon: Option<String>,
+    pub color: Option<String>,
+    pub default: bool,
+}

@@ -1,6 +1,6 @@
-mod structs;
+pub(crate) mod structs;
 mod utils;
-mod zip;
+pub(crate) mod zip;
 
 use std::string::ToString;
 use once_cell::sync::Lazy;
@@ -9,6 +9,7 @@ use crate::{
 };
 use crate::repository::structs::{Entry, EntryType, Language, Repository};
 use crate::repository::utils::get_language_from_extension;
+use crate::repository::zip::{Zip};
 
 const LANGUAGES_JSON: &str = include_str!("languages.json");
 pub static LANGUAGES: Lazy<Vec<Language>> = Lazy::new(|| serde_json::from_str::<Vec<Language>>(LANGUAGES_JSON).unwrap());
@@ -50,4 +51,23 @@ pub fn get_dir(path: &str) -> Option<Repository> {
         exists: true,
         paths,
     })
+}
+
+#[tauri::command]
+pub fn zip_dir(path: &str) -> Option<Zip> {
+    let real_path = std::path::Path::new(path);
+    if !real_path.exists() { return None; }
+
+    let zip = Zip::new(path, get_config()).unwrap();
+    Some(zip)
+}
+
+#[tauri::command]
+pub fn open_in_ide(path: &str, ide: &str) {
+    let response = std::process::Command::new(ide)
+        .arg(path)
+        .spawn();
+    if response.is_err() {
+        println!("Failed to open in IDE: {}", response.err().unwrap().to_string());
+    }
 }
