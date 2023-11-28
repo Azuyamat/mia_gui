@@ -135,3 +135,13 @@
 .icon:hover {
     filter: drop-shadow(0 0 5px #dcdcdc);
 }
+
+.menu .options li:hover .buttons {
+    display: flex;
+}
+
+.buttons {
+    display: none;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

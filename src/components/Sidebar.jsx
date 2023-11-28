@@ -31,7 +31,7 @@ export default function Sidebar({selected, setSelected, getDir, currentPath}) {
                             setSelected("files")
                             getDir(dir)
                         }}>
-                            <FaStar/> {dir}
+                            <FaStar/> {dir.split("\\").pop()}
                         </li>
                     )
                 })}

@@ -1,14 +1,13 @@
 import styles from "../styles/components/FileExplorer.module.css"
-import {FaCss3, FaFolder, FaJava, FaPython, FaRust} from "react-icons/fa";
+import {FaCss3, FaFolder, FaHtml5, FaJava, FaPython, FaRust} from "react-icons/fa";
 import {HiDotsHorizontal} from "react-icons/hi";
 import {FaC, FaFile, FaFileZipper} from "react-icons/fa6";
 import {BiCode, BiLogoJavascript, BiLogoVisualStudio} from "react-icons/bi";
 import {CgCPlusPlus} from "react-icons/cg";
 import {SiCsharp, SiIntellijidea} from "react-icons/si";
 import {useContext, useState} from "react";
-import {DiIntellij} from "react-icons/di";
 import {invoke} from "@tauri-apps/api/tauri";
-import {AiFillFileZip, AiFillStar} from "react-icons/ai";
+import {AiFillStar} from "react-icons/ai";
 import {ConfigContext} from "../contexts/ConfigContext.jsx";
 import {ToastContext} from "../contexts/ToastContext.jsx";
 
@@ -49,7 +48,11 @@ const langIcons = {
     "Zip": {
         icon: <FaFileZipper/>,
         color: "#77ffa7"
-    }
+    },
+    "HTML": {
+        icon: <FaHtml5/>,
+        color: "#ff6a00"
+    },
 }
 
 export default function FileExplorer({dir, setDir}) {
@@ -145,21 +148,25 @@ export default function FileExplorer({dir, setDir}) {
                 </div>
 
                 <p className={styles.extension}>{extension}</p>
-                <ContextMenu open={contextMenuOpen} setOpen={setContextMenuOpen} path={path} isDir={false}/>
+                <ContextMenu open={contextMenuOpen} setOpen={setContextMenuOpen} path={path} isDir={false} language={language}/>
             </li>
         )
     }
 
-    function ContextMenu({open, setOpen, path, isDir}) {
+    function ContextMenu({open, setOpen, path, isDir, language}) {
         if (!open) return null;
+        const metadata = langIcons[language] || {
+            icon: <FaFile/>,
+            color: "#efefef"
+        }
         return (
-            <div className={styles.contextMenuFatWrapper} onClick={(e) => {
+            <div style={{'--context-color': metadata.color}} className={styles.contextMenuFatWrapper} onClick={(e) => {
                 e.preventDefault();
                 setOpen(false)
             }}>
                 <div className={styles.contextMenu}>
-                    <h3>{path}</h3>
-                    <p>Context actions</p>
+                    <h3>{metadata.icon} {path}</h3>
+                    <p>Context actions for {language || "file"}</p>
                     {!isDir && (
                         <ul>
                         </ul>
@@ -187,7 +194,7 @@ export default function FileExplorer({dir, setDir}) {
                                     showToast(`Couldn't zip directory ${err.message}`, "error")
                                 })
                             }}><FaFileZipper/> Zip</li>
-                            {config.ides.map((ide, i) => {
+                            {config?.ides?.map((ide, i) => {
                                 return <li key={i} onClick={() => openInIde(path, ide.command)}><BiCode/> Open
                                     with {ide.name}</li>
                             })}

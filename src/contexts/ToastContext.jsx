@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {Component, createContext, useContext, useEffect, useRef, useState} from "react";
 import styles from "../styles/components/Toast.module.css";
 
 
@@ -9,33 +9,25 @@ export const ToastContext = createContext({
 });
 
 export default function Toast({children}) {
-    const [toast, setToast] = useState([]);
-    const [toastId, setToastId] = useState(null);
+    const toastRef = useRef(null);
 
     function showToast(message, type) {
-        const currentToast = {
-            message: message || "No message provided",
-            type: type || "info",
-            id: Math.random()
-        };
-        setToast(prevState => [...prevState, currentToast])
-    }
+        const rid = Math.random().toString(36).substring(7);
 
-    useEffect(() => {
-        if (toast.length > 0 && toastId === null) {
-            setToastId(toast[0].id);
-            setTimeout(() => {
-                setToast(prevState => prevState.slice(1));
-                setToastId(null)
-            }, 3000);
-        }
-    }, [toast]);
+        toastRef.current.setAttribute("data-style", type);
+        toastRef.current.innerHTML = message;
+        toastRef.current.id = rid;
+        setTimeout(() => {
+            if (toastRef.current.id !== rid) return;
+            toastRef.current.setAttribute("data-style", "hidden");
+            toastRef.current.innerHTML = "";
+        }, 3000);
+    }
 
     return (
         <ToastContext.Provider value={{showToast}}>
             {children}
-            <div className={styles.toast} data-style={toast[0]?.type || "hidden"}>
-                {toast[0]?.message || "No message provided"}
+            <div className={styles.toast} data-style={"hidden"} ref={toastRef}>
             </div>
         </ToastContext.Provider>
     );

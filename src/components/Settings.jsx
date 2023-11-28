@@ -5,7 +5,7 @@ import {ConfigContext} from "../contexts/ConfigContext.jsx";
 import {ToastContext} from "../contexts/ToastContext.jsx";
 import {FaCircleInfo} from "react-icons/fa6";
 
-export default function Settings({callChanges}) {
+export default function Settings() {
     const {config, saveConfig} = useContext(ConfigContext);
     const {showToast} = useContext(ToastContext);
 
@@ -25,7 +25,6 @@ export default function Settings({callChanges}) {
             }
         });
         setChanges(true);
-        showToast("Don't forget to save your changes", "info")
     }
 
     // Handles input from select menu
@@ -40,7 +39,6 @@ export default function Settings({callChanges}) {
             }
         })
         setChanges(true);
-        showToast("Don't forget to save your changes", "info")
     }
 
     function removeValue(e) {
@@ -54,7 +52,28 @@ export default function Settings({callChanges}) {
             }
         })
         setChanges(true);
-        showToast("Don't forget to save your changes", "info")
+    }
+
+    function moveValue(e, direction) {
+        const id = e.currentTarget.id.split("|||");
+        const optionName = id[0];
+        const optionType = id[1];
+        const index = dynamicConfig[optionType].findIndex(item => item === optionName);
+        if (index === 0 && direction === "up") return;
+        if (index === dynamicConfig[optionType].length - 1 && direction === "down") return;
+        const newArray = dynamicConfig[optionType];
+        const temp = newArray[index];
+        const newIndex = direction === "up" ? index - 1 : index + 1;
+        newArray[index] = newArray[newIndex];
+        newArray[newIndex] = temp;
+        setDynamicConfig(prevState => {
+            return {
+                ...prevState,
+                [optionType]: newArray
+            }
+        })
+        setChanges(true);
+        showToast("Moved item", "success")
     }
 
     return (
@@ -205,7 +224,12 @@ export default function Settings({callChanges}) {
                                 return (
                                     <li key={i}>
                                         {optionName}
-                                        <button id={`${optionName}|||${id}`} onClick={removeValue}><FaTimes/></button>
+                                        <div className={styles.buttons}>
+                                            <button id={`${optionName}|||${id}`} onClick={(e) => moveValue(e, "up")}><FaChevronUp/></button>
+                                            <button id={`${optionName}|||${id}`} onClick={(e) => moveValue(e, "down")}><FaChevronDown/></button>
+                                            <button id={`${optionName}|||${id}`} onClick={removeValue}><FaTimes/>
+                                            </button>
+                                        </div>
                                     </li>
                                 )
                             })}
