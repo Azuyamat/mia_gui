@@ -1,8 +1,8 @@
 import styles from "../styles/components/Sidebar.module.css"
-import {FaCog, FaCookieBite, FaFolder, FaHome, FaStar} from "react-icons/fa";
-import {FaNoteSticky} from "react-icons/fa6";
+import {FaCog, FaFolder, FaHome, FaStar} from "react-icons/fa";
 import {useContext} from "react";
 import {ConfigContext} from "../contexts/ConfigContext.jsx";
+import {compareTwoPaths, getLastValidElement, splitBySlash} from "../utils/formatUtils.js";
 
 const items = {
     "files": <FaHome/>,
@@ -20,33 +20,33 @@ export default function Sidebar({selected, setSelected, getDir, currentPath}) {
                         <li key={item} data-selected={selected === item.toLowerCase()} onClick={() => {
                             setSelected(item.toLowerCase())
                         }}>
-                            {items[item]} {item}
+                            <span>{items[item]}</span> {item}
                         </li>
                     )
                 })}
                 <li className={styles.divider}/>
-                {config?.favorite_dirs?.map((dir) => {
+                {currentPath && config?.favorite_dirs?.map((dir) => {
                     return (
-                        <li key={dir} data-selected={currentPath === dir} onClick={() => {
+                        <li key={dir} data-selected={compareTwoPaths(currentPath, dir)} onClick={() => {
                             setSelected("files")
                             getDir(dir)
                         }}>
-                            <FaStar/> {dir.split("\\").pop()}
+                            <span><FaStar/></span> {splitBySlash(dir).pop()}
                         </li>
                     )
                 })}
                 <li className={styles.divider}/>
-                {config.default_dir && (
-                    <li data-selected={currentPath === config.default_dir} onClick={() => {
+                {config.default_dir && currentPath && (
+                    <li data-selected={compareTwoPaths(currentPath, config.default_dir)} onClick={() => {
                         setSelected("files")
                         getDir(config.default_dir)
-                    }}><FaFolder/> {config.default_dir}</li>
+                    }}><span><FaFolder/></span> {getLastValidElement(config.default_dir)}</li>
                 )}
-                {config.output_dir && (
-                    <li data-selected={currentPath === config.output_dir} onClick={() => {
+                {config.output_dir && currentPath && (
+                    <li data-selected={compareTwoPaths(currentPath, config.output_dir)} onClick={() => {
                         setSelected("files")
                         getDir(config.output_dir)
-                    }}><FaFolder/> {config.output_dir}</li>
+                    }}><span><FaFolder/></span> {getLastValidElement(config.output_dir)}</li>
                 )}
             </ul>
         </div>

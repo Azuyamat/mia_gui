@@ -32,8 +32,10 @@
     cursor: pointer;
 
     word-break: break-all;
-    display: block;
     user-select: none;
+
+    display: flex;
+    gap: 10px;
 }
 
 .container ul li[data-selected="true"] {

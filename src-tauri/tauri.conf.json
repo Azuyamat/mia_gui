@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "mia",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -19,8 +19,9 @@
     },
     "bundle": {
       "active": true,
+      "copyright": "Azuyamat",
       "targets": "all",
-      "identifier": "com.azuyamat",
+      "identifier": "com.azuyamat.mia",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -39,6 +40,17 @@
         "width": 1000,
         "height": 800
       }
-    ]
+    ],
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://api.github.com/repos/azuyamat/mia/releases/latest"
+      ],
+      "dialog": false,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQwQUJBNkRFRThBQUVEREYKUldUZjdhcm8zcWFyMEZZRVNBb1RTUDhhekNwcFBObmJjTy96SWMvSnRzQ3I3S2lTczBXSzBmWWIK",
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }

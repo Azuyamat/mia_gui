@@ -1,4 +1,4 @@
-import {Component, createContext, useContext, useEffect, useRef, useState} from "react";
+import {createContext, useRef} from "react";
 import styles from "../styles/components/Toast.module.css";
 
 
@@ -14,6 +14,7 @@ export default function Toast({children}) {
     function showToast(message, type) {
         const rid = Math.random().toString(36).substring(7);
 
+        if (!toastRef.current) return;
         toastRef.current.setAttribute("data-style", type);
         toastRef.current.innerHTML = message;
         toastRef.current.id = rid;

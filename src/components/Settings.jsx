@@ -4,6 +4,7 @@ import {FaChevronDown, FaChevronUp, FaTimes} from "react-icons/fa";
 import {ConfigContext} from "../contexts/ConfigContext.jsx";
 import {ToastContext} from "../contexts/ToastContext.jsx";
 import {FaCircleInfo} from "react-icons/fa6";
+import SettingsInformation from "./SettingsInformation.jsx";
 
 export default function Settings() {
     const {config, saveConfig} = useContext(ConfigContext);
@@ -171,6 +172,7 @@ export default function Settings() {
                         }}>Add IDE</button>
                     </CustomSelectMenu>
                 </SettingCard>
+                <SettingsInformation/>
             </ul>
         </div>
     )

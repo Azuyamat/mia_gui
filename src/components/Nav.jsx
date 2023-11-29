@@ -1,6 +1,6 @@
 import styles from "../styles/components/Nav.module.css"
-import {FaCog, FaPaperPlane, FaSearch} from "react-icons/fa";
-import {useContext, useEffect, useState} from "react";
+import {FaPaperPlane} from "react-icons/fa";
+import {useContext} from "react";
 import {FaFileZipper} from "react-icons/fa6";
 import {invoke} from "@tauri-apps/api/tauri";
 import {ToastContext} from "../contexts/ToastContext.jsx";

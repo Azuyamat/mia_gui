@@ -25,6 +25,11 @@
     font-size: 1.2rem;
 }
 
+.settings li:last-of-type p {
+    font-size: 1rem;
+    color: #ababab;
+}
+
 .settings li {
     border-radius: 5px;
     background: rgba(35, 35, 35, 0.42);

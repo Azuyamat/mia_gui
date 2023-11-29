@@ -1,15 +1,15 @@
 import styles from "../styles/components/FileExplorer.module.css"
 import {FaCss3, FaFolder, FaHtml5, FaJava, FaPython, FaRust} from "react-icons/fa";
-import {HiDotsHorizontal} from "react-icons/hi";
 import {FaC, FaFile, FaFileZipper} from "react-icons/fa6";
-import {BiCode, BiLogoJavascript, BiLogoVisualStudio} from "react-icons/bi";
+import {BiCode, BiLogoJavascript} from "react-icons/bi";
 import {CgCPlusPlus} from "react-icons/cg";
-import {SiCsharp, SiIntellijidea} from "react-icons/si";
+import {SiCsharp} from "react-icons/si";
 import {useContext, useState} from "react";
 import {invoke} from "@tauri-apps/api/tauri";
 import {AiFillStar} from "react-icons/ai";
 import {ConfigContext} from "../contexts/ConfigContext.jsx";
 import {ToastContext} from "../contexts/ToastContext.jsx";
+import {splitBySlash} from "../utils/formatUtils.js";
 
 // Language icons
 const langIcons = {
@@ -55,23 +55,30 @@ const langIcons = {
     },
 }
 
-export default function FileExplorer({dir, setDir}) {
+export default function FileExplorer({dir, setDir, path}) {
     const {config, saveConfig} = useContext(ConfigContext);
     const {showToast} = useContext(ToastContext);
 
+    if (!dir?.exists && path?.length > 0) showToast("Directory doesn't exist", "error")
     if (!dir || !dir.exists) return (
         <div className={styles.container}>
             <div className={styles.context}>
                 <div className={styles.row}>
-                    <div className={styles.important}></div>
+                    <div className={styles.important} data-skeleton={"true"}></div>
                 </div>
             </div>
-            <ul className={styles.repository}/>
+            <ul className={styles.repository}>
+                <li className={styles.directory} data-skeleton={"true"}/>
+                <li className={styles.directory} data-skeleton={"true"}/>
+                <li className={styles.directory} data-skeleton={"true"}/>
+                <li className={styles.directory} data-skeleton={"true"}/>
+                <li className={styles.directory} data-skeleton={"true"}/>
+                <li className={styles.directory} data-skeleton={"true"}/>
+            </ul>
         </div>
     )
 
-    const splitPath = dir.path.split("\\");
-
+    const splitPath = splitBySlash(dir.path);
     const splitPathsAnchors = splitPath.map((path, i) => {
         if (path.trim().length < 1) return null;
         return (

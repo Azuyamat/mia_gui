@@ -37,12 +37,10 @@ function App() {
                     {selected === "settings" && <Settings callChanges={() => {
                         setChanges(true)
                     }}/>}
-                    {selected === "about" && <About/>}
                 </SelectedLayout>
             </div>
             <footer>
-                <p>Made by <a href="https://azuyamat.com">Azuyamat</a></p>
-                <p>More information <a href="https://azuyamat.com/post/mia">here</a></p>
+                <p>Thank you for using <a href="https://github.com/Azuyamat/mia_gui">Mia</a></p>
             </footer>
         </div>
     );
