@@ -22,7 +22,7 @@ export default function SettingsInformation() {
             setInformation({
                 version: version,
                 tauriVersion: tauriVersion,
-                update: update?.shouldUpdate || "You are already up to date!"
+                update: update?.shouldUpdate ? "Available" : "Up to date"
             });
         }
         updateInformation();
@@ -42,8 +42,10 @@ export default function SettingsInformation() {
             <p>Mia version <span className={"highlight"}>{information.version}</span></p>
             <p>Tauri version <span className={"highlight"}>{information.tauriVersion}</span></p>
             <p>Update <span className={"highlight"}>{information.update}</span></p>
-            {information?.update?.shouldUpdate && (
+            {information.update === "Available" ? (
                 <button className={styles.updateButton} onClick={installUpdate}>Update</button>
+            ) : (
+                <button className={styles.updateButton} disabled={true}>Update</button>
             )}
         </li>
     )
