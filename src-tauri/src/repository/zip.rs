@@ -13,13 +13,15 @@ pub struct Zip {
     pub base_path: PathBuf,
     pub config: Config,
     pub output_path: PathBuf,
+    pub line_count: usize,
+    pub messages: Vec<String>,
 
     #[serde(skip)]
     pub zip: ZipWriter<File>,
 }
 
 impl Zip {
-    pub fn new (base_path: &str, config: Config) -> Result<Zip, MiaError> {
+    pub fn new(base_path: &str, config: Config) -> Result<Zip, MiaError> {
         let path = std::path::Path::new(base_path);
         if !path.exists() { return Err(MiaError::PathNotFound); }
 
@@ -33,7 +35,7 @@ impl Zip {
         let output_dir = config.output_dir.clone().unwrap_or("".to_string());
         let mut output_path = std::path::Path::new(&output_dir);
         fs::create_dir_all(&output_path)?;
-        if !output_path.exists() { output_path = path.clone();}
+        if !output_path.exists() { output_path = path.clone(); }
 
         // Create zip file
         let zip_path = &output_path.join(&name).with_extension("zip");
@@ -46,7 +48,9 @@ impl Zip {
             base_path: path.clone().to_path_buf(),
             config,
             output_path: zip_path.clone(),
-            zip
+            line_count: 0,
+            messages: vec![],
+            zip,
         };
         zip.zip(&path.to_path_buf())?;
         zip.zip.finish()?;
@@ -62,6 +66,17 @@ impl Zip {
             let extension = path.extension().as_ref().map(|ext| ext.to_str().unwrap().to_string());
             if self.config.blacklisted_file_extensions.contains(&extension.unwrap_or("".to_string())) { return Ok(()); }
             if self.config.blacklisted_file_names.contains(&path.file_name().unwrap().to_str().unwrap().to_string()) { return Ok(()); }
+
+            let warns = vec!["TODO", "FIXME"];
+            let file = fs::read_to_string(path)?;
+            for warn in warns {
+                // Iterate lines indexed
+                file.lines().enumerate().for_each(|(i, line)| {
+                    if line.contains(warn) {
+                        self.messages.push(format!("{}:{}: {}", local_path, i + 1, line));
+                    }
+                });
+            }
 
             // Zip file
             self.zip.start_file(local_path, zip::write::FileOptions::default())?;

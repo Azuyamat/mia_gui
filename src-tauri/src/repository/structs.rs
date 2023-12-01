@@ -20,7 +20,7 @@ pub struct Entry {
     pub entry_type: EntryType,
     pub path: String,
     pub language: Option<Language>,
-    pub blacklisted: bool
+    pub blacklisted: bool,
 }
 
 #[derive(Serialize)]
