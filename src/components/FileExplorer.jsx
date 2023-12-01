@@ -197,6 +197,9 @@ export default function FileExplorer({dir, setDir, path}) {
                             <li onClick={() => {
                                 invoke("zip_dir", {path}).then((res) => {
                                     showToast(`Zipped directory to ${res.output_path}`, "success")
+                                    setTimeout(() => {
+                                        if (res.messages) showToast("Hmm... <br>" + res.messages.join("<br>"), "error")
+                                    }, 1000)
                                 }).catch((err) => {
                                     showToast(`Couldn't zip directory ${err.message}`, "error")
                                 })
