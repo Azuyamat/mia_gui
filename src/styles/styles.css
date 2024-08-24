@@ -1,82 +1,206 @@
+/** Fonts */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+/* Roboto */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&display=swap"); /* Fira Code */
+
 :root {
-    font-family: Monospaced, monospace;
-    font-size: 16px;
-    font-weight: 400;
+    /* Colors */
+    --background: rgb(var(--background-rgb));
+    --background-rgb: 30, 30, 30; /* 15, 15, 15 if you want a darker background */
+    --background-25: rgba(var(--background-rgb), 0.25);
+    --background-50: rgba(var(--background-rgb), 0.5);
+    --background-75: rgba(var(--background-rgb), 0.75);
 
-    color: white;
-    background-color: rgba(0, 0, 0, 0.8);
+    --text: rgb(var(--text-rgb));
+    --text-rgb: 255, 255, 255;
+    --text-25: rgba(var(--text-rgb), 0.25);
+    --text-50: rgba(var(--text-rgb), 0.5);
+    --text-75: rgba(var(--text-rgb), 0.75);
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+    --primary: rgb(var(--primary-rgb));
+    --primary-rgb: 240, 201, 80;
+    --primary-25: rgba(var(--primary-rgb), 0.25);
+    --primary-50: rgba(var(--primary-rgb), 0.5);
+    --primary-75: rgba(var(--primary-rgb), 0.75);
+
+    --accent: rgb(var(--accent-rgb));
+    --accent-color: var(--accent);
+    --accent-rgb: 140, 255, 139;
+    --accent-25: rgba(var(--accent-rgb), 0.25);
+    --accent-50: rgba(var(--accent-rgb), 0.5);
+    --accent-75: rgba(var(--accent-rgb), 0.75);
+
+    --gradient-colors: var(--primary), var(--accent);
+    --gradient: linear-gradient(90deg, var(--gradient-colors));
+
+    /* Variables */
+    --border-radius: 5px;
+    --font-serif: "Roboto", sans-serif;
+    --font-mono: "Fira Code", monospace;
+    --transition: 0.3s;
+    --shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+    --border: 1px solid var(--text);
+    --border-25: 1px solid var(--text-25);
+    --border-50: 1px solid var(--text-50);
+    --border-75: 1px solid var(--text-75);
+    --border-accent: 1px solid var(--accent);
+
+    --dashed-border: 1px dashed var(--text);
+    --dashed-border-25: 1px dashed var(--text-25);
+    --dashed-border-50: 1px dashed var(--text-50);
+    --dashed-border-75: 1px dashed var(--text-75);
+    --dashed-border-accent: 1px dashed var(--accent);
+
+    --dotted-border: 1px dotted var(--text);
+    --dotted-border-25: 1px dotted var(--text-25);
+    --dotted-border-50: 1px dotted var(--text-50);
+    --dotted-border-75: 1px dotted var(--text-75);
+    --dotted-border-accent: 1px dotted var(--accent);
+
+    --blur: blur(10px);
+
+    /* Colors */
+    --green: #95ff95;
+    --red: #ff9595;
+    --blue: #9595ff;
+    --yellow: #ffff95;
+}
+
+#root {
+    width: 100%;
+}
+
+html[data-theme="light"] {
+    --background-rgb: 235, 235, 235;
+    --text-rgb: 0, 0, 0;
 }
 
 * {
     box-sizing: border-box;
-}
-
-body, html {
     padding: 0;
     margin: 0;
 }
 
+*::selection {
+    background-color: var(--accent);
+    color: var(--background);
+}
+
+html[data-theme="light"] *::selection {
+    background-color: var(--accent);
+    color: var(--text);
+}
+
+html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+html,
+body {
+    min-height: 100vh; /* Testing */
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    font-family: var(--font-serif);
+}
 
 body {
-    background: var(--background);
-    min-height: 100vh;
-    width: 100vw;
-    animation: animate_ 1000ms linear infinite;
-    transition: background 0.3s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    color: var(--text);
+    background-color: var(--background);
+    transition: background-color var(--transition),
+    color var(--transition);
 }
 
-button, input {
-    outline: none;
-    border: none;
-}
-
-::selection {
-    background: var(--accent-color);
-    color: var(--primary-color);
-}
-
-.highlight {
-    color: var(--accent-color);
-}
-
-::-webkit-scrollbar {
-    display: none;
+main {
+    width: 100%;
+    max-width: 100vw;
+    padding: 0 1rem;
+    margin: 4rem 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 a {
-    color: var(--accent-color);
+    color: inherit;
+    text-decoration: none;
 }
 
-footer {
-    padding: 1rem;
-    text-align: center;
-    font-size: 1.2rem;
-    color: white;
-    background: var(--background);
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.18);
+a:hover {
+    color: var(--accent);
 }
 
-*[data-skeleton="true"] {
-    background: rgba(255, 255, 255, 0.1);
-    animation: skeleton 2s ease-in-out infinite;
+button {
+    all: unset;
+    cursor: pointer;
 }
 
-@keyframes skeleton {
-    0% {
-        opacity: 1;
-    }
+/* Sizes */
 
-    50% {
-        opacity: 0.7;
-    }
-    100% {
-        opacity: 1;
+h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+h4 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+h5 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+p {
+    font-size: 1rem;
+    margin: 1rem 0;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Effects */
+
+.stoke {
+    font-style: italic;
+    -webkit-text-stroke-color: var(--text);
+    -webkit-text-stroke-width: 1px;
+    color: transparent;
+}
+
+.highlight {
+    color: var(--background);
+    background-color: var(--accent);
+}
+
+@media (max-width: 1400px) {
+    body {
+        padding-top: 1rem;
     }
 }

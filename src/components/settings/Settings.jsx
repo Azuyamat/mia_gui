@@ -1,10 +1,10 @@
-import styles from "../styles/components/Settings.module.css"
-import {useContext, useState} from "react";
-import {FaChevronDown, FaChevronUp, FaTimes} from "react-icons/fa";
-import {ConfigContext} from "../contexts/ConfigContext.jsx";
-import {ToastContext} from "../contexts/ToastContext.jsx";
-import {FaCircleInfo} from "react-icons/fa6";
+import styles from "../../styles/components/Settings.module.css"
+import {useContext, useEffect, useState} from "react";
+import {FaTimes} from "react-icons/fa";
+import {ConfigContext} from "../../contexts/ConfigContext.jsx";
+import {ToastContext} from "../../contexts/ToastContext.jsx";
 import SettingsInformation from "./SettingsInformation.jsx";
+import SettingCard from "./SettingCard.tsx";
 
 export default function Settings() {
     const {config, saveConfig} = useContext(ConfigContext);
@@ -13,7 +13,6 @@ export default function Settings() {
     const [changes, setChanges] = useState(false);
     const [dynamicConfig, setDynamicConfig] = useState(config);
 
-    // Handles input from single text input
     function handleInput(e) {
         const id = e.target.id;
         const previousValue = dynamicConfig[id];
@@ -28,7 +27,6 @@ export default function Settings() {
         setChanges(true);
     }
 
-    // Handles input from select menu
     function addValue(e) {
         const id = e.target.id;
         const value = e.target.value;
@@ -55,27 +53,31 @@ export default function Settings() {
         setChanges(true);
     }
 
-    function moveValue(e, direction) {
-        const id = e.currentTarget.id.split("|||");
-        const optionName = id[0];
-        const optionType = id[1];
-        const index = dynamicConfig[optionType].findIndex(item => item === optionName);
-        if (index === 0 && direction === "up") return;
-        if (index === dynamicConfig[optionType].length - 1 && direction === "down") return;
-        const newArray = dynamicConfig[optionType];
-        const temp = newArray[index];
-        const newIndex = direction === "up" ? index - 1 : index + 1;
-        newArray[index] = newArray[newIndex];
-        newArray[newIndex] = temp;
-        setDynamicConfig(prevState => {
-            return {
-                ...prevState,
-                [optionType]: newArray
+    useEffect(() => {
+        const saveConfigShortcut = (e) => {
+            if (e.ctrlKey && e.key === "s") {
+                e.preventDefault();
+                saveConfig(dynamicConfig);
+                setChanges(false);
+                showToast("Config saved", "success");
             }
-        })
-        setChanges(true);
-        showToast("Moved item", "success")
-    }
+        }
+        window.addEventListener("keydown", saveConfigShortcut);
+
+        return () => {
+            window.removeEventListener("keydown", saveConfigShortcut);
+        }
+    }, [dynamicConfig]);
+
+    const list = [
+        {
+            name: "Naming convention",
+            details: [":name - Name given", ":date - Current date"],
+            placeholder: "Enter convention...",
+            value: dynamicConfig.naming,
+            id: "naming"
+        }
+    ]
 
     return (
         <div className={styles.container}>
@@ -88,11 +90,12 @@ export default function Settings() {
                 <SettingCard title={"Theme color"}>
                     <input type="text" id={"color"} onBlur={handleInput}
                            onInput={(e) => {
-                        const color = e.currentTarget.value;
-                        const preview = document.getElementById(styles.preview);
-                        preview.style.backgroundColor = color;
+                               const color = e.currentTarget.value;
+                               const preview = document.getElementById(styles.preview);
+                               preview.style.backgroundColor = color;
 
-                    }} defaultValue={dynamicConfig.color || ""} placeholder={"Enter color..."} autoComplete={"off"}
+                           }} defaultValue={dynamicConfig.color || ""} placeholder={"Enter color..."}
+                           autoComplete={"off"}
                            spellCheck={false}/>
                     <div id={styles.preview} style={{'background': dynamicConfig.color || "white"}}/>
                 </SettingCard>
@@ -100,6 +103,14 @@ export default function Settings() {
                     <input type="text" spellCheck={false} autoComplete={"off"} placeholder={"Enter convention..."}
                            defaultValue={dynamicConfig.naming} id={"naming"} onBlur={handleInput}/>
                 </SettingCard>
+                {list.map((item, i) => {
+                    return (
+                        <SettingCard key={i} title={item.name} details={item.details}>
+                            <input type="text" spellCheck={false} autoComplete={"off"} placeholder={item.placeholder}
+                                   defaultValue={item.value} id={item.id} onBlur={handleInput}/>
+                        </SettingCard>
+                    )
+                })}
                 <SettingCard title={"Output directory"} details={"Selected directory is used by default"}>
                     <input type="text" spellCheck={false} autoComplete={"off"} placeholder={"Enter directory..."}
                            defaultValue={dynamicConfig.output_dir || ""} id={"output_dir"} onBlur={handleInput}/>
@@ -169,7 +180,8 @@ export default function Settings() {
                             document.getElementById("ideName").value = "";
                             document.getElementById("idePath").value = "";
                             setChanges(true)
-                        }}>Add IDE</button>
+                        }}>Add IDE
+                        </button>
                     </CustomSelectMenu>
                 </SettingCard>
                 <SettingsInformation/>
@@ -177,67 +189,31 @@ export default function Settings() {
         </div>
     )
 
-    function SettingCard({title, details, children}) {
-        const [detailsShown, setDetailsShown] = useState(false);
-        return (
-            <li onMouseLeave={() => {
-                setDetailsShown(false);
-            }}>
-                <p>
-                    {title}{" "}
-                    {details && <span className={styles.icon}>
-                        <FaCircleInfo onMouseEnter={() => {
-                            setDetailsShown(true)
-                        }}/>
-                    </span>}
-                </p>
-                {children}
-                {detailsShown && details && (
-                    <div className={styles.details}>
-                        {details.constructor === Array ? details.map((detail, i) => <p key={i}>{detail}</p>) :
-                            <p>{details}</p>}
-                    </div>
-                )}
-            </li>
-        )
-    }
-
-    function CustomSelectMenu({title, options, id, children}) {
-        const [isOpen, setIsOpen] = useState(true);
-
+    function CustomSelectMenu({options, id, children}) {
         return (
             <div className={styles.menu}>
-                <button onClick={() => setIsOpen(prevState => !prevState)}>
-                    {title} {isOpen ? <FaChevronUp/> : <FaChevronDown/>}
-                </button>
-                {isOpen && (
-                    <>
-                        {children || (
-                            <input type="text" placeholder={`Add ${id.replaceAll("_", " ")}...`} id={id}
-                                   onKeyDown={(e) => {
-                                       if (e.key !== "Enter") return;
-                                       addValue(e);
-                                       e.target.value = "";
-                                   }}/>
-                        )}
-                        <ul className={styles.options}>
-                            {options.map((option, i) => {
-                                const optionName = option.name || option;
-                                return (
-                                    <li key={i}>
-                                        {optionName}
-                                        <div className={styles.buttons}>
-                                            <button id={`${optionName}|||${id}`} onClick={(e) => moveValue(e, "up")}><FaChevronUp/></button>
-                                            <button id={`${optionName}|||${id}`} onClick={(e) => moveValue(e, "down")}><FaChevronDown/></button>
-                                            <button id={`${optionName}|||${id}`} onClick={removeValue}><FaTimes/>
-                                            </button>
-                                        </div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </>
+                {children || (
+                    <input type="text" placeholder={`Add ${id.replaceAll("_", " ")}...`} id={id}
+                           onKeyDown={(e) => {
+                               if (e.key !== "Enter") return;
+                               addValue(e);
+                               e.target.value = "";
+                           }}/>
                 )}
+                <ul className={styles.options}>
+                    {options.map((option, i) => {
+                        const optionName = option.name || option;
+                        return (
+                            <li key={i}>
+                                {optionName}
+                                <div className={styles.buttons}>
+                                    <button id={`${optionName}|||${id}`} onClick={removeValue}><FaTimes/>
+                                    </button>
+                                </div>
+                            </li>
+                        )
+                    })}
+                </ul>
             </div>
         )
     }

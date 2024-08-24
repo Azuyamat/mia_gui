@@ -35,7 +35,7 @@ impl Zip {
         let output_dir = config.output_dir.clone().unwrap_or("".to_string());
         let mut output_path = std::path::Path::new(&output_dir);
         fs::create_dir_all(&output_path)?;
-        if !output_path.exists() { output_path = path.clone(); }
+        if !output_path.exists() { output_path = path; }
 
         // Create zip file
         let zip_path = &output_path.join(&name).with_extension("zip");
@@ -45,7 +45,7 @@ impl Zip {
         // Start zip
         let mut zip = Zip {
             name,
-            base_path: path.clone().to_path_buf(),
+            base_path: path.to_path_buf(),
             config,
             output_path: zip_path.clone(),
             line_count: 0,

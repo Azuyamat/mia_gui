@@ -2,8 +2,8 @@ import {getVersion, getTauriVersion} from "@tauri-apps/api/app";
 import {checkUpdate, installUpdate, onUpdaterEvent} from "@tauri-apps/api/updater";
 import {useContext, useEffect, useState} from "react";
 
-import styles from "../styles/components/Settings.module.css";
-import {ToastContext} from "../contexts/ToastContext.jsx";
+import styles from "../../styles/components/Settings.module.css";
+import {ToastContext} from "../../contexts/ToastContext.jsx";
 
 export default function SettingsInformation() {
     const {showToast} = useContext(ToastContext);

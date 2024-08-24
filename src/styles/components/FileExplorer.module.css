@@ -1,5 +1,7 @@
 .container {
     height: 100%;
+    font-family: var(--font-mono);
+    font-weight: 300;
 }
 
 .container ul {
@@ -60,12 +62,12 @@
 }
 
 .entries {
-    background: rgba(40, 40, 40, 0.51);
+    background: var(--background-50);
     padding: .5rem 1rem;
 }
 
 .directory, .file {
-    background: rgba(38, 38, 38, 0.81);
+    background: var(--background-50);
 
     display: flex;
     flex-flow: row nowrap;
@@ -82,7 +84,7 @@
 
 .directory button, .file button {
     background: transparent;
-    color: var(--primary-color);
+    color: var(--accent-color);
     visibility: hidden;
 }
 
@@ -98,7 +100,7 @@
 }
 
 .file:nth-of-type(even) {
-    background: rgba(77, 77, 77, 0.04);
+    background: rgba(100, 100, 100, 0.04);
 }
 
 .file *, .directory * {
@@ -112,7 +114,12 @@
 
 
 .path {
-    color: rgba(255, 255, 255, 0.37);
+    display: none;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.directory:hover .path {
+    display: block;
 }
 
 .pathButton {
@@ -127,7 +134,8 @@
 }
 
 .pathButton::after {
-    content: '>';
+    content: '/';
+    color: rgba(255, 255, 255, 0.37);
     margin-left: .3rem;
     font-family: Consolas, monospace;
 }
@@ -153,19 +161,19 @@
 }
 
 .directory[data-blacklisted="true"], .file[data-blacklisted="true"] {
-    border-left: 5px solid rgb(255, 59, 59);
+    color: rgba(255, 59, 59, 0.3);
 }
 
 .directory[data-blacklisted="true"]:hover, .file[data-blacklisted="true"]:hover {
     color: rgb(255, 59, 59);
 }
 
-.file[data-blacklisted="true"] i {
-    color: rgb(255, 59, 59);
-}
-
 .extension {
     color: rgba(255, 255, 255, 0.37);
+}
+
+.file:hover .extension {
+    color: var(--accent-color);
 }
 
 /*
