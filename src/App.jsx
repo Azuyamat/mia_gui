@@ -2,8 +2,8 @@ import {useContext, useEffect, useState} from "react";
 import {invoke} from "@tauri-apps/api/tauri";
 import "./styles/App.css";
 import Nav from "./components/Nav.jsx";
-import FileExplorer from "./components/FileExplorer.jsx";
-import Settings from "./components/Settings.jsx";
+import FileExplorer from "./components/fileExplorer/FileExplorer.jsx";
+import Settings from "./components/settings/Settings.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import SelectedLayout from "./components/layouts/SelectedLayout.jsx";
 import {ConfigContext} from "./contexts/ConfigContext.jsx";
@@ -39,9 +39,6 @@ function App() {
                     }}/>}
                 </SelectedLayout>
             </div>
-            <footer>
-                <p>Thank you for using <a href="https://github.com/Azuyamat/mia_gui">Mia</a></p>
-            </footer>
         </div>
     );
 }

@@ -1,12 +1,8 @@
 import styles from "../styles/components/Nav.module.css"
-import {FaPaperPlane} from "react-icons/fa";
-import {useContext} from "react";
-import {FaFileZipper} from "react-icons/fa6";
-import {invoke} from "@tauri-apps/api/tauri";
-import {ToastContext} from "../contexts/ToastContext.jsx";
+import {useEffect, useRef} from "react";
 
 export default function Nav({onSubmit, path}) {
-    const {showToast} = useContext(ToastContext)
+    const input = useRef(null);
 
     function handleInput() {
         const text = document.getElementById("query").value;
@@ -14,17 +10,9 @@ export default function Nav({onSubmit, path}) {
         onSubmit(text);
     }
 
-    function zip() {
-        if (!path) return;
-        showToast(`Zipping ${path}...`, "info")
-        try {
-            invoke("zip_dir", {path: path}).then(res => console.log(res));
-        } catch (e) {
-            showToast(`Failed to zip ${path}`, "error")
-        } finally {
-            showToast(`Zipped ${path}`, "success")
-        }
-    }
+    useEffect(() => {
+        if (path) input.current.value = path;
+    }, [path])
 
     return (
         <nav className={styles.nav}>
@@ -36,11 +24,11 @@ export default function Nav({onSubmit, path}) {
                 autoComplete={"off"}
                 autoFocus={true}
                 onBlur={handleInput}
+                onKeyDown={e => e.key === "Enter" && handleInput()}
                 onFocus={e => e.target.value = (path || "")}
                 spellCheck={false}
+                ref={input}
             />
-            <button className={styles.icon} onClick={handleInput}><FaPaperPlane/></button>
-            <button className={styles.icon} onClick={zip}><FaFileZipper/></button>
         </nav>
     )
 }

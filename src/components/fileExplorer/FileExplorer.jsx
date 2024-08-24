@@ -1,59 +1,15 @@
-import styles from "../styles/components/FileExplorer.module.css"
-import {FaCss3, FaFolder, FaHtml5, FaJava, FaPython, FaRust} from "react-icons/fa";
-import {FaC, FaFile, FaFileZipper} from "react-icons/fa6";
-import {BiCode, BiLogoJavascript} from "react-icons/bi";
-import {CgCPlusPlus} from "react-icons/cg";
-import {SiCsharp} from "react-icons/si";
+import styles from "../../styles/components/FileExplorer.module.css"
+import {FaFolder} from "react-icons/fa";
+import {FaFile, FaFileZipper} from "react-icons/fa6";
+import {BiCode} from "react-icons/bi";
 import {useContext, useState} from "react";
 import {invoke} from "@tauri-apps/api/tauri";
 import {AiFillStar} from "react-icons/ai";
-import {ConfigContext} from "../contexts/ConfigContext.jsx";
-import {ToastContext} from "../contexts/ToastContext.jsx";
-import {splitBySlash} from "../utils/formatUtils.js";
-
-// Language icons
-const langIcons = {
-    "Rust": {
-        icon: <FaRust/>,
-        color: "#ff964f"
-    },
-    "Python": {
-        icon: <FaPython/>,
-        color: "#9cff4b"
-    },
-    "JavaScript": {
-        icon: <BiLogoJavascript/>,
-        color: "#ffea40"
-    },
-    "CSS": {
-        icon: <FaCss3/>,
-        color: "#5582ff"
-    },
-    "Java": {
-        icon: <FaJava/>,
-        color: "#ff4d4d"
-    },
-    "C": {
-        icon: <FaC/>,
-        color: "#b43fff"
-    },
-    "Cpp": {
-        icon: <CgCPlusPlus/>,
-        color: "#3e49ff"
-    },
-    "CSharp": {
-        icon: <SiCsharp/>,
-        color: "#3370ff"
-    },
-    "Zip": {
-        icon: <FaFileZipper/>,
-        color: "#77ffa7"
-    },
-    "HTML": {
-        icon: <FaHtml5/>,
-        color: "#ff6a00"
-    },
-}
+import {ConfigContext} from "../../contexts/ConfigContext.jsx";
+import {ToastContext} from "../../contexts/ToastContext.jsx";
+import {splitBySlash} from "../../utils/formatUtils.js";
+import {languages} from "../../data/languages.ts";
+import React from "react";
 
 export default function FileExplorer({dir, setDir, path}) {
     const {config, saveConfig} = useContext(ConfigContext);
@@ -137,11 +93,10 @@ export default function FileExplorer({dir, setDir, path}) {
 
     function File({name, language, blacklisted, extension, path}) {
         const [contextMenuOpen, setContextMenuOpen] = useState(false);
-        const icon = langIcons[language] || {
-            icon: <FaFile/>,
+        const icon = languages.find(l => l.name === language) || {
+            icon: FaFile,
             color: "#efefef"
         };
-
 
         return (
             <li className={styles.file} style={{'--color': icon.color}} data-blacklisted={blacklisted}
@@ -150,7 +105,7 @@ export default function FileExplorer({dir, setDir, path}) {
                     setContextMenuOpen(true)
                 }}>
                 <div className={styles.flex}>
-                    <i>{icon.icon}</i>
+                    <i>{React.createElement(icon.icon)}</i>
                     <p>{name.replace(`.${extension}`, "")}</p>
                 </div>
 
@@ -162,7 +117,7 @@ export default function FileExplorer({dir, setDir, path}) {
 
     function ContextMenu({open, setOpen, path, isDir, language}) {
         if (!open) return null;
-        const metadata = langIcons[language] || {
+        const metadata = languages.find(l => l.name === language) || {
             icon: <FaFile/>,
             color: "#efefef"
         }
@@ -197,6 +152,9 @@ export default function FileExplorer({dir, setDir, path}) {
                             <li onClick={() => {
                                 invoke("zip_dir", {path}).then((res) => {
                                     showToast(`Zipped directory to ${res.output_path}`, "success")
+                                    setTimeout(() => {
+                                        if (res.messages) showToast("Hmm... <br>" + res.messages.join("<br>"), "error")
+                                    }, 1000)
                                 }).catch((err) => {
                                     showToast(`Couldn't zip directory ${err.message}`, "error")
                                 })
