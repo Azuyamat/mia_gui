@@ -1,0 +1,35 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "mia",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false
+    },
+    "bundle": {
+      "active": true,
+      "copyright": "Azuyamat",
+      "targets": "all",
+      "identifier": "com.azuyamat.mia"
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Mia",
+        "width": 1000,
+        "height": 800
+      }
+    ]
+  }
+}
