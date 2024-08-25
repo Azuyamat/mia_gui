@@ -17,5 +17,8 @@ export default defineConfig({
   server: {
     port: 1420,
     strictPort: true
+  },
+  optimizeDeps: {
+    exclude: ["oh-vue-icons/icons"]
   }
 })
