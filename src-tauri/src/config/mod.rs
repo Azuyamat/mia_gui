@@ -16,6 +16,7 @@ pub fn save_config(config: Config) {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
     pub naming: String,
     pub output_dir: Option<String>,

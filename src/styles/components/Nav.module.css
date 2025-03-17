@@ -2,7 +2,7 @@
     background: var(--background);
     backdrop-filter: blur(10px);
     color: var(--accent-color);
-    padding: .01rem 1rem;
+    padding: 0.01rem 1rem;
 
     display: flex;
     flex-flow: row nowrap;
@@ -33,7 +33,7 @@
     font-size: 1.2rem;
     border: 1px solid transparent;
     border-radius: 5px;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
 }
 
 .nav input::placeholder {

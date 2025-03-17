@@ -13,7 +13,7 @@
     background: rgba(35, 35, 35, 0.42);
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 5px;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     color: white;
     font-size: 1rem;
     margin: 1rem 0 0 0;
@@ -39,10 +39,10 @@
 }
 
 .details {
-    margin: .5rem 0 0 0;
+    margin: 0.5rem 0 0 0;
     border-left: 5px solid var(--accent-color);
     background: rgba(0, 0, 0, 0.12);
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
 }
 
 .details p {
@@ -58,7 +58,7 @@
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 5px;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     text-align: left;
     margin: 1rem 0;
     display: flex;
@@ -87,7 +87,7 @@
     background: rgba(35, 35, 35, 0.42);
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 5px;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
 
     display: flex;
     justify-content: space-between;
@@ -116,7 +116,7 @@
     background: transparent;
     color: var(--primary-color);
     border-radius: 5px;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     font-size: 1rem;
     cursor: pointer;
     margin: 0 0 1rem 0;
@@ -134,7 +134,7 @@
 }
 
 .icon {
-    font-size: .7rem;
+    font-size: 0.7rem;
     color: #dcdcdc;
 }
 .icon:hover {
@@ -156,7 +156,7 @@
     color: var(--accent-color);
     border: 1px solid var(--accent-color);
     width: fit-content;
-    padding: .5rem 2rem;
+    padding: 0.5rem 2rem;
     border-radius: 5px;
     margin: 1rem 0 0 0;
     cursor: pointer;

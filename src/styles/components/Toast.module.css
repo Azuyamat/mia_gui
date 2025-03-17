@@ -1,8 +1,15 @@
-.toast {
+.toasts {
     position: fixed;
     bottom: 2rem;
     right: 1rem;
     z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.toast {
     width: 100%;
     max-width: 400px;
     padding: 1rem;
@@ -33,25 +40,25 @@ Specific styles
 }
 
 .toast[data-style="info"]:before {
-    content: '📝️';
+    content: "📝️";
     margin-right: 10px;
     filter: drop-shadow(0 0 5px rgb(255, 255, 255));
 }
 
 .toast[data-style="success"]:before {
-    content: '✅';
+    content: "✅";
     margin-right: 10px;
     filter: drop-shadow(0 0 5px rgb(26, 255, 0));
 }
 
 .toast[data-style="error"]:before {
-    content: '❌';
+    content: "❌";
     margin-right: 10px;
     filter: drop-shadow(0 0 5px rgb(255, 0, 0));
 }
 
 .toast[data-style="star"]:before {
-    content: '⭐';
+    content: "⭐";
     margin-right: 10px;
     filter: drop-shadow(0 0 5px rgb(255, 255, 0));
 }
