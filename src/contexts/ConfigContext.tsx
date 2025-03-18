@@ -1,65 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
-import { createContext } from "react";
-import { fromHexToRGB } from "@/utils/format-utils";
-import ConfigService from "@/domain/services/ConfigService";
-import { Config } from "@/domain/types/Config";
+"use client";
 
-export const ConfigContext = createContext<{
-    config: Config | null;
-    reloadConfig: () => Promise<void>;
-    saveConfig: (newConfig: Config) => Promise<void>;
-}>({
-    config: null,
-    reloadConfig: async () => {
-        console.warn("No config provider!");
-    },
-    saveConfig: async () => {
-        console.warn("No config provider!");
-    },
-});
+import {
+    ReactNode,
+    createContext,
+    useState,
+    useContext,
+    useEffect,
+} from "react";
+import { Config } from "@/domain/types/Config.ts";
+import ConfigService from "@/domain/services/ConfigService.ts";
 
-export default function ConfigContainer({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    const [config, setConfig] = useState<Config | null>(null);
+type ConfigContextProps = {
+    config: Config;
+    setConfig: (config: Config) => void;
+    saveConfig: () => void;
+};
+
+const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
+
+const initialConfig: Config = {
+    naming: ":name",
+    outputDir: undefined,
+    blacklistedFileNames: [],
+    blacklistedFolderNames: [],
+    blacklistedFileExtensions: [],
+    favoriteDirs: [],
+
+    defaultDir: undefined,
+    color: undefined,
+
+    ides: [],
+};
+
+export const ConfigProvider = ({ children }: { children: ReactNode }) => {
+    const [config, setConfig] = useState<Config>(initialConfig);
 
     const configService = new ConfigService();
 
-    const reloadConfig = async () => {
-        setConfig(await configService.getConfig());
-    };
-
-    const saveConfig = async (newConfig: Config) => {
-        await configService.saveConfig(newConfig);
-        await reloadConfig();
-    };
-
-    const setDocumentAccentColor = () => {
-        if (config) {
-            document.documentElement.style.setProperty(
-                "--accent-rgb",
-                fromHexToRGB(config.color || "#FFFFFF")
-            );
+    const saveConfig = async () => {
+        if (!config) {
+            return;
         }
+        await configService.saveConfig(config);
     };
 
     useEffect(() => {
-        reloadConfig();
-        setDocumentAccentColor();
-    }, [config?.color]);
+        const fetchConfig = async () => {
+            const config = await configService.getConfig();
+            setConfig(config);
+        };
+
+        fetchConfig();
+    }, []);
 
     return (
-        <ConfigContext.Provider
-            value={{
-                config: config,
-                reloadConfig: reloadConfig,
-                saveConfig: saveConfig,
-            }}
-        >
+        <ConfigContext.Provider value={{ config, setConfig, saveConfig }}>
             {children}
         </ConfigContext.Provider>
     );
-}
+};
+
+export const useConfig = () => {
+    const context = useContext(ConfigContext);
+
+    if (!context) {
+        throw new Error("useConfig must be used within a ConfigProvider");
+    }
+
+    return context;
+};

@@ -7,14 +7,13 @@ mod errors;
 
 use repository::{
     get_dir,
-    zip_dir,
-    open_in_ide,
+    zip_dir
 };
 use config::{get_config, save_config};
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_dir, get_config, save_config, zip_dir, open_in_ide])
+        .invoke_handler(tauri::generate_handler![get_dir, get_config, save_config, zip_dir])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -6,9 +6,8 @@ export type Config = {
     blacklistedFileNames: string[];
     blacklistedFolderNames: string[];
     blacklistedFileExtensions: string[];
-    favoriteDirs: string[];
 
-    defaultDir: string;
+    defaultDir: undefined;
     color: string | undefined;
 
     ides: IDE[];

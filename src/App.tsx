@@ -6,11 +6,11 @@ import Settings from "./components/settings/Settings";
 import Sidebar from "./components/Sidebar";
 import SelectedLayout from "./components/layouts/SelectedLayout";
 import { ConfigContext } from "./contexts/ConfigContext";
-import { DirectoryInfo } from "@/domain/types/DirectoryInfo";
+import { Directory } from "@/domain/types/Directory.ts";
 import { getDir } from "@/utils/get-dir";
 
 function App(): React.ReactElement {
-    const [dir, setDir] = useState<DirectoryInfo | null>(null);
+    const [dir, setDir] = useState<Directory | null>(null);
     const [path, setPath] = useState<string | null>(null);
     const [selected, setSelected] = useState("files");
 

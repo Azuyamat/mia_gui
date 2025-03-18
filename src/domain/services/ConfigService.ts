@@ -12,16 +12,4 @@ export default class ConfigService {
     async saveConfig(config: Config) {
         return await invoke(SAVE_CONFIG_COMMAND, { config });
     }
-
-    async setFavorite(path: string, state: boolean) {
-        const config = await this.getConfig();
-        if (state) {
-            config.favoriteDirs = config.favoriteDirs.filter(
-                (dir) => dir !== path
-            );
-        } else {
-            config.favoriteDirs = [...new Set([...config.favoriteDirs, path])];
-        }
-        await this.saveConfig(config);
-    }
 }
