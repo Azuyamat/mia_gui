@@ -19,19 +19,30 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            - uses: actions/cache@v3
+              with:
+                path: ./src-tauri/target
+                key: ${{matrix.os}}-${{ hashFiles('./src-tauri/Cargo.lock') }}
+
+            - uses: actions/cache@v3
+              with:
+                path: ~/.cargo
+                key: ${{matrix.os}}-${{ hashFiles('./src-tauri/Cargo.lock') }}
+
+            - uses: actions/cache@v3
+              with:
+                path: ./node_modules
+                key: ${{matrix.os}}-${{ hashFiles('./package-lock.json') }}
+
+            - uses: actions/cache@v3
+              with:
+                path: ./src-next/.next
+                key: ${{matrix.os}}
+
             - name: Setup node
               uses: actions/setup-node@v4
               with:
                   node-version: 20
-
-            - uses: actions/cache@v4
-              with:
-                path: |
-                  ~/.npm
-                  ${{ github.workspace }}/.next/cache
-                key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-                restore-keys: |
-                  ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
             - name: Install Rust stable
               uses: dtolnay/rust-toolchain@stable
