@@ -22,22 +22,22 @@ jobs:
             - uses: actions/cache@v3
               with:
                 path: ./src-tauri/target
-                key: ${{matrix.os}}-${{ hashFiles('./src-tauri/Cargo.lock') }}
+                key: ${{matrix.platform}}-${{ hashFiles('./src-tauri/Cargo.lock') }}
 
             - uses: actions/cache@v3
               with:
                 path: ~/.cargo
-                key: ${{matrix.os}}-${{ hashFiles('./src-tauri/Cargo.lock') }}
+                key: ${{matrix.platform}}-${{ hashFiles('./src-tauri/Cargo.lock') }}
 
             - uses: actions/cache@v3
               with:
                 path: ./node_modules
-                key: ${{matrix.os}}-${{ hashFiles('./package-lock.json') }}
+                key: ${{matrix.platform}}-${{ hashFiles('./package-lock.json') }}
 
             - uses: actions/cache@v3
               with:
                 path: ./src-next/.next
-                key: ${{matrix.os}}
+                key: ${{matrix.platform}}
 
             - name: Setup node
               uses: actions/setup-node@v4

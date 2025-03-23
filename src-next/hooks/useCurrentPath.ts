@@ -1,5 +1,3 @@
-"use client";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useConfig } from "@/contexts/ConfigContext.tsx";
 import { useEffect } from "react";

@@ -9,19 +9,6 @@ export default function SearchBar(): React.ReactElement {
     const { path, setPath } = useCurrentPath();
     const [query, setQuery] = useState("");
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newPath = e.target.value;
-        setQuery(newPath);
-    };
-
-    useEffect(() => {
-        if (query !== "") {
-            setPath(query);
-        } else {
-            setPath(path || "");
-        }
-    }, [query, path, setPath]);
-
     useEffect(() => {
         setQuery(path || "");
     }, [path]);
@@ -33,12 +20,21 @@ export default function SearchBar(): React.ReactElement {
                 <input
                     type="text"
                     value={query}
-                    onChange={handleSearch}
+                    onChange={(e) => {
+                        setQuery(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            setPath(query);
+                        }
+                    }}
+                    onBlur={() => {
+                        setPath(query);
+                    }}
                     placeholder="/path/to/search"
                     className={styles.searchBar}
                 />
             </div>
-            {/*<Peek directory={peek} query={query} />*/}
         </div>
     );
 }
