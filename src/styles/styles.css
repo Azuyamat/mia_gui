@@ -8,13 +8,13 @@
     /* Colors */
     --background: rgb(var(--background-rgb));
     --background-rgb:
-        30, 30, 30; /* 15, 15, 15 if you want a darker background */
+        40, 40, 40;
     --background-25: rgba(var(--background-rgb), 0.25);
     --background-50: rgba(var(--background-rgb), 0.5);
     --background-75: rgba(var(--background-rgb), 0.75);
 
     --secondary-background: rgb(var(--secondary-background-rgb));
-    --secondary-background-rgb: 20, 20, 20;
+    --secondary-background-rgb: 10, 10, 10;
     --secondary-background-25: rgba(var(--secondary-background-rgb), 0.25);
     --secondary-background-50: rgba(var(--secondary-background-rgb), 0.5);
     --secondary-background-75: rgba(var(--secondary-background-rgb), 0.75);
@@ -27,14 +27,14 @@
     --text-75: rgba(var(--text-rgb), 0.75);
 
     --primary: rgb(var(--primary-rgb));
-    --primary-rgb: 240, 201, 80;
+    --primary-rgb: 70, 134, 115;
     --primary-25: rgba(var(--primary-rgb), 0.25);
     --primary-50: rgba(var(--primary-rgb), 0.5);
     --primary-75: rgba(var(--primary-rgb), 0.75);
 
     --accent: rgb(var(--accent-rgb));
     --accent-color: var(--accent);
-    --accent-rgb: 230, 255, 239;
+    --accent-rgb: 100, 154, 145;
     --accent-25: rgba(var(--accent-rgb), 0.25);
     --accent-50: rgba(var(--accent-rgb), 0.5);
     --accent-75: rgba(var(--accent-rgb), 0.75);
@@ -71,12 +71,30 @@
     --blur: blur(10px);
 
     /* Colors */
-    --green: #95ff95;
-    --red: #ff9595;
-    --blue: #9595ff;
-    --yellow: #ffff95;
+    --green: var(--green-rgb);
+    --green-rgb: 0, 255, 0;
+    --green-25: rgba(var(--green-rgb), 0.25);
+    --green-50: rgba(var(--green-rgb), 0.5);
+    --green-75: rgba(var(--green-rgb), 0.75);
+    --red: var(--red-rgb);
+    --red-rgb: 255, 0, 0;
+    --red-25: rgba(var(--red-rgb), 0.25);
+    --red-50: rgba(var(--red-rgb), 0.5);
+    --red-75: rgba(var(--red-rgb), 0.75);
+    --blue: var(--blue-rgb);
+    --blue-rgb: 0, 0, 255;
+    --blue-25: rgba(var(--blue-rgb), 0.25);
+    --blue-50: rgba(var(--blue-rgb), 0.5);
+    --blue-75: rgba(var(--blue-rgb), 0.75);
+    --yellow: var(--yellow-rgb);
+    --yellow-rgb: 255, 255, 0;
+    --yellow-25: rgba(var(--yellow-rgb), 0.25);
+    --yellow-50: rgba(var(--yellow-rgb), 0.5);
+    --yellow-75: rgba(var(--yellow-rgb), 0.75);
 
     --global-padding: 2rem;
+
+    --page-size: calc(100vh - 2 * var(--global-padding));
 }
 
 * {
@@ -107,12 +125,18 @@ body {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    overscroll-behavior: none;
 }
 
 main {
     flex: 1 0 auto;
-    overflow-y: auto;
+    height: 100%;
+    max-height: var(--page-size);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 0 1rem;
+    overflow-y: auto;
 }
 
 a {
@@ -170,8 +194,6 @@ ul {
     list-style: none;
 }
 
-/* Effects */
-
 .stoke {
     font-style: italic;
     -webkit-text-stroke-color: var(--text);
@@ -182,4 +204,8 @@ ul {
 .highlight {
     color: var(--background);
     background-color: var(--accent);
+}
+
+::-webkit-scrollbar {
+    display: none;
 }

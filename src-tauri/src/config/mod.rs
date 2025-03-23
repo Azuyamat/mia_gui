@@ -1,16 +1,21 @@
 use std::cmp::PartialEq;
 use serde::{Deserialize, Serialize};
+use tauri::AppHandle;
 use crate::repository::structs::{Entry, EntryType, IDE};
 
 #[tauri::command]
-pub fn get_config() -> Config {
-    let config: Config = confy::load("mia", None).unwrap();
+pub fn get_config(app_handle: AppHandle) -> Config {
+    let app_version = &app_handle.package_info().version.major;
+    let app_name = format!("mia_v{}", app_version);
+    let config: Config = confy::load(&app_name, None).unwrap();
     config
 }
 
 #[tauri::command]
-pub fn save_config(config: Config) {
-    let action = confy::store("mia", None, config);
+pub fn save_config(app_handle: AppHandle, config: Config) {
+    let app_version = &app_handle.package_info().version.major;
+    let app_name = format!("mia_v{}", app_version);
+    let action = confy::store(&app_name, None, config);
     if action.is_err() {
         println!("Error while saving config: {:?}", action.err());
     }

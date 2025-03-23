@@ -24,7 +24,6 @@ const initialConfig: Config = {
     blacklistedFileNames: [],
     blacklistedFolderNames: [],
     blacklistedFileExtensions: [],
-    favoriteDirs: [],
 
     defaultDir: undefined,
     color: undefined,

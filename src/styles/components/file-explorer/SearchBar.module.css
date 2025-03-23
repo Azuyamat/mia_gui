@@ -28,32 +28,8 @@
 }
 
 .peek {
+    position: relative;
+    top: 0;
     border-top: var(--dashed-border);
     width: 100%;
-}
-
-.peek ul {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.peek ul li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.peek ul li:hover {
-    background: var(--secondary-background-50);
-}
-
-.peek ul li span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

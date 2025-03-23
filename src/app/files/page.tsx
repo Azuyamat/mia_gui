@@ -1,13 +1,15 @@
+"use client";
+
 import React from "react";
 import FileExplorer from "@/components/file-explorer/FileExplorer.tsx";
-import { FileExplorerProvider } from "@/contexts/FileExplorerContext.tsx";
+import useCurrentPath from "@/hooks/useCurrentPath.ts";
 
 export default function Page(): React.ReactElement {
+    const { path } = useCurrentPath();
+
     return (
         <div>
-            <FileExplorerProvider>
-                <FileExplorer />
-            </FileExplorerProvider>
+            <FileExplorer path={path} />
         </div>
     );
 }

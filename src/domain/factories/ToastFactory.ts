@@ -6,13 +6,14 @@ const DEFAULT_LIFETIME = 1000;
 export default class ToastFactory {
     static createToast(
         type: ToastType,
-        content: string,
-        lifetime: number = DEFAULT_LIFETIME
+        message: string,
+        duration: number = DEFAULT_LIFETIME
     ): Toast {
         return {
+            id: Math.random().toString(36),
             type,
-            content,
-            lifetime,
+            message,
+            duration,
         };
     }
 

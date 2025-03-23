@@ -1,6 +1,6 @@
 .sidebar {
     flex: 0 0 auto;
-    height: calc(100vh - 2 * var(--global-padding));
+    min-height: var(--page-size);
     width: 80px;
     background: var(--secondary-background-50);
     border-radius: var(--border-radius);

@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api";
 
 const GET_DIR_COMMAND = "get_dir";
 
-type GetDirOptions = {
+export type GetDirOptions = {
     show_hidden: boolean;
     show_blacklisted: boolean;
     fuzzy: boolean;
@@ -17,16 +17,21 @@ export async function getDir(
 }
 
 export class GetDirBuilder {
+    static readonly DEFAULT_OPTIONS: GetDirOptions = {
+        show_hidden: true,
+        show_blacklisted: true,
+        fuzzy: false,
+    };
+
     private readonly path: string;
     private readonly options: GetDirOptions;
 
-    constructor(path: string) {
+    constructor(
+        path: string,
+        options: GetDirOptions = GetDirBuilder.DEFAULT_OPTIONS
+    ) {
         this.path = path;
-        this.options = {
-            show_hidden: false,
-            show_blacklisted: false,
-            fuzzy: false,
-        };
+        this.options = options;
     }
 
     showHidden(value: boolean): GetDirBuilder {

@@ -1,7 +1,12 @@
-import { ToastType } from "@/domain/enums/ToastType";
+import { ToastType } from "@/domain/enums/ToastType.ts";
 
 export type Toast = {
+    id: string;
+    message: string;
     type: ToastType;
-    content: string;
-    lifetime: number;
+    duration: number;
 };
+
+export type ActiveToast = {
+    startTimestamp: number;
+} & Toast;

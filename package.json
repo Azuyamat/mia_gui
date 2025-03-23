@@ -11,12 +11,14 @@
         "tauri:dev": "tauri dev"
     },
     "dependencies": {
+        "@tanstack/react-form": "^1.1.2",
         "@tauri-apps/api": "^1.5.1",
         "next": "^15.2.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.12.0",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.2",
+        "zod": "^3.24.2"
     },
     "devDependencies": {
         "@tauri-apps/cli": "^1.5.6",

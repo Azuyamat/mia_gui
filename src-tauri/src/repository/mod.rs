@@ -6,6 +6,7 @@ mod entry;
 
 use once_cell::sync::Lazy;
 use serde::Deserialize;
+use tauri::AppHandle;
 use crate::{
     config::{get_config},
 };
@@ -23,8 +24,8 @@ pub struct GetDirOptions {
 }
 
 #[tauri::command]
-pub fn get_dir(path: &str, options: GetDirOptions) -> Option<Directory> {
-    let config = get_config();
+pub fn get_dir(app_handle: AppHandle, path: &str, options: GetDirOptions) -> Option<Directory> {
+    let config = get_config(app_handle);
     let mut real_path = std::path::Path::new(path);
     if !real_path.exists() && options.fuzzy {
         real_path = match real_path.parent() {
@@ -47,11 +48,11 @@ pub fn get_dir(path: &str, options: GetDirOptions) -> Option<Directory> {
 }
 
 #[tauri::command]
-pub fn zip_dir(path: &str) -> Option<Zip> {
+pub fn zip_dir(app_handle: AppHandle, path: &str) -> Option<Zip> {
     let real_path = std::path::Path::new(path);
     if !real_path.exists() { return None; }
 
-    match Zip::new(path, get_config()) {
+    match Zip::new(path, get_config(app_handle)) {
         Ok(zip) => Some(zip),
         Err(_) => None,
     }

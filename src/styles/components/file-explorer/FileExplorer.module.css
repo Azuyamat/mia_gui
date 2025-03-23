@@ -1,3 +1,6 @@
-.file-explorer {
-
+.fileExplorer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: var(--page-size);
 }
