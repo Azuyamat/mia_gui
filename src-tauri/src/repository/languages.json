@@ -1,98 +1,98 @@
 [
-  {
-    "name": "Rust",
-    "extensions": ["rs"]
-  },
-  {
-    "name": "CSS",
-    "extensions": ["css"]
-  },
-  {
-    "name": "HTML",
-    "extensions": ["html"]
-  },
-  {
-    "name": "JavaScript",
-    "extensions": ["js", "tsx"]
-  },
-  {
-    "name": "TypeScript",
-    "extensions": ["ts", "tsx"]
-  },
-  {
-    "name": "Python",
-    "extensions": ["py"]
-  },
-  {
-    "name": "C",
-    "extensions": ["c"]
-  },
-  {
-    "name": "C++",
-    "extensions": ["cpp"]
-  },
-  {
-    "name": "C#",
-    "extensions": ["cs"]
-  },
-  {
-    "name": "Java",
-    "extensions": ["java"]
-  },
-  {
-    "name": "Go",
-    "extensions": ["go"]
-  },
-  {
-    "name": "Ruby",
-    "extensions": ["rb"]
-  },
-  {
-    "name": "PHP",
-    "extensions": ["php"]
-  },
-  {
-    "name": "Swift",
-    "extensions": ["swift"]
-  },
-  {
-    "name": "Kotlin",
-    "extensions": ["kt"]
-  },
-  {
-    "name": "Scala",
-    "extensions": ["scala"]
-  },
-  {
-    "name": "R",
-    "extensions": ["r"]
-  },
-  {
-    "name": "Dart",
-    "extensions": ["dart"]
-  },
-  {
-    "name": "Haskell",
-    "extensions": ["hs"]
-  },
-  {
-    "name": "Lua",
-    "extensions": ["lua"]
-  },
-  {
-    "name": "Perl",
-    "extensions": ["pl"]
-  },
-  {
-    "name": "Elixir",
-    "extensions": ["ex"]
-  },
-  {
-    "name": "Clojure",
-    "extensions": ["clj"]
-  },
-  {
-    "name": "Groovy",
-    "extensions": ["groovy"]
-  }
+    {
+        "name": "Rust",
+        "extensions": ["rs"]
+    },
+    {
+        "name": "CSS",
+        "extensions": ["css"]
+    },
+    {
+        "name": "HTML",
+        "extensions": ["html"]
+    },
+    {
+        "name": "JavaScript",
+        "extensions": ["js", "tsx"]
+    },
+    {
+        "name": "TypeScript",
+        "extensions": ["ts", "tsx"]
+    },
+    {
+        "name": "Python",
+        "extensions": ["py"]
+    },
+    {
+        "name": "C",
+        "extensions": ["c"]
+    },
+    {
+        "name": "C++",
+        "extensions": ["cpp"]
+    },
+    {
+        "name": "C#",
+        "extensions": ["cs"]
+    },
+    {
+        "name": "Java",
+        "extensions": ["java"]
+    },
+    {
+        "name": "Go",
+        "extensions": ["go"]
+    },
+    {
+        "name": "Ruby",
+        "extensions": ["rb"]
+    },
+    {
+        "name": "PHP",
+        "extensions": ["php"]
+    },
+    {
+        "name": "Swift",
+        "extensions": ["swift"]
+    },
+    {
+        "name": "Kotlin",
+        "extensions": ["kt"]
+    },
+    {
+        "name": "Scala",
+        "extensions": ["scala"]
+    },
+    {
+        "name": "R",
+        "extensions": ["r"]
+    },
+    {
+        "name": "Dart",
+        "extensions": ["dart"]
+    },
+    {
+        "name": "Haskell",
+        "extensions": ["hs"]
+    },
+    {
+        "name": "Lua",
+        "extensions": ["lua"]
+    },
+    {
+        "name": "Perl",
+        "extensions": ["pl"]
+    },
+    {
+        "name": "Elixir",
+        "extensions": ["ex"]
+    },
+    {
+        "name": "Clojure",
+        "extensions": ["clj"]
+    },
+    {
+        "name": "Groovy",
+        "extensions": ["groovy"]
+    }
 ]

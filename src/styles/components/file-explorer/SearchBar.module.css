@@ -1,0 +1,35 @@
+.searchContainer {
+    width: 100%;
+    border-radius: var(--border-radius);
+    color: var(--text-75);
+    background: var(--secondary-background-50);
+}
+
+.searchContainer > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#searchIcon {
+    color: inherit;
+    margin-left: 1rem;
+    font-size: .8rem;
+}
+
+.searchBar {
+    font-size: 1rem;
+    font-family: var(--font-serif);
+    width: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0.5rem 1rem;
+}
+
+.peek {
+    position: relative;
+    top: 0;
+    border-top: var(--dashed-border);
+    width: 100%;
+}
