@@ -22,9 +22,13 @@ export default function ArrayField(
                     {...rest}
                     placeholder={`Enter ${definition.label}`}
                     value={field.state.value.join(",")}
-                    onChange={(e) =>
-                        field.handleChange(e.target.value.split(",") || [])
-                    }
+                    onChange={(e) => {
+                        console.log(
+                            "ArrayField onChange",
+                            e.target.value.split(",") || []
+                        );
+                        field.handleChange(e.target.value.split(",") || []);
+                    }}
                     type={"text"}
                 />
                 <p className={styles.description}>{definition.description}</p>

@@ -11,15 +11,15 @@ import ToastFactory from "@/domain/factories/ToastFactory.ts";
 
 export default function Page(): React.ReactElement {
     const { addToast, editToast } = useToast();
-    const { config, setConfig, saveConfig } = useConfig();
+    const { config, saveConfig } = useConfig();
     const form = useAppForm({
         defaultValues: config,
         onSubmit: ({ value }) => {
             const id = addToast(
                 ToastFactory.createInfoToast("Saving settings...")
             );
-            setConfig(value);
-            saveConfig();
+            console.log(`Saving settings:`, value);
+            saveConfig(value);
             editToast(
                 id,
                 ToastFactory.createSuccessToast("Settings saved successfully!")
@@ -53,23 +53,25 @@ export default function Page(): React.ReactElement {
                                     }
                                 },
                             }}
-                        >{(field) => {
-                            const isArray = Array.isArray(
-                                field.state.value
-                            );
+                        >
+                            {(field) => {
+                                const isArray = Array.isArray(
+                                    field.state.value
+                                );
 
-                            if (isArray) {
-                                return (
-                                    <field.ArrayField
-                                        definition={setting}
-                                    />
-                                );
-                            } else {
-                                return (
-                                    <field.TextField definition={setting} />
-                                );
-                            }
-                        }}</form.AppField>
+                                if (isArray) {
+                                    return (
+                                        <field.ArrayField
+                                            definition={setting}
+                                        />
+                                    );
+                                } else {
+                                    return (
+                                        <field.TextField definition={setting} />
+                                    );
+                                }
+                            }}
+                        </form.AppField>
                     );
                 })}
             </form>

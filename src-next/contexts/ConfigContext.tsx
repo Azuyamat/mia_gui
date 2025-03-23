@@ -13,7 +13,7 @@ import { invoke } from "@tauri-apps/api/core";
 type ConfigContextProps = {
     config: Config;
     setConfig: (config: Config) => void;
-    saveConfig: () => void;
+    saveConfig: (value: Config) => void;
 };
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -32,18 +32,21 @@ const initialConfig: Config = {
 export const ConfigProvider = ({ children }: { children: ReactNode }) => {
     const [config, setConfig] = useState<Config>(initialConfig);
 
-    const saveConfig = async () => {
+    const saveConfig = async (newConfig: Config = config) => {
+        setConfig(newConfig);
         await invoke("save_config", {
-            config: config,
+            config: newConfig,
         });
+        fetchConfig();
+    };
+
+    const fetchConfig = async () => {
+        console.log("Fetching config...");
+        const config: Config = await invoke("get_config");
+        setConfig(config);
     };
 
     useEffect(() => {
-        const fetchConfig = async () => {
-            const config: Config = await invoke("get_config");
-            setConfig(config);
-        };
-
         fetchConfig();
     }, []);
 
