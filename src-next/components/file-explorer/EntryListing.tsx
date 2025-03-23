@@ -1,3 +1,5 @@
+"use client";
+
 import { Entry, EntryType } from "@/domain/types/Directory.ts";
 import React from "react";
 import styles from "@/styles/components/file-explorer/Entries.module.css";

@@ -1,5 +1,3 @@
-"use client";
-
 import { GetDirBuilder, GetDirOptions } from "@/utils/get-dir.ts";
 import { Directory, Entry, EntryType } from "@/domain/types/Directory.ts";
 import { useEffect, useState } from "react";

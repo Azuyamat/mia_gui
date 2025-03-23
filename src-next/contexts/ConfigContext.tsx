@@ -8,7 +8,6 @@ import {
     useState,
 } from "react";
 import { Config } from "@/domain/types/Config.ts";
-import ConfigService from "@/domain/services/ConfigService.ts";
 
 type ConfigContextProps = {
     config: Config;
@@ -32,18 +31,24 @@ const initialConfig: Config = {
 export const ConfigProvider = ({ children }: { children: ReactNode }) => {
     const [config, setConfig] = useState<Config>(initialConfig);
 
-    const configService = new ConfigService();
-
     const saveConfig = async () => {
-        if (!config) {
+        if (typeof window === "undefined" || !config) {
             return;
         }
-        await configService.saveConfig(config);
+
+        const { invoke } = await import("@tauri-apps/api/tauri");
+
+        await invoke("save_config", config);
     };
 
     useEffect(() => {
         const fetchConfig = async () => {
-            const config = await configService.getConfig();
+            if (typeof window === "undefined") {
+                return;
+            }
+
+            const { invoke } = await import("@tauri-apps/api/tauri");
+            const config: Config = await invoke("get_config");
             setConfig(config);
         };
 

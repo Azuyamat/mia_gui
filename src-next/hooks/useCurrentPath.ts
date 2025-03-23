@@ -1,6 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useConfig } from "@/contexts/ConfigContext.tsx";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export default function useCurrentPath() {
     const { config } = useConfig();
@@ -9,13 +9,16 @@ export default function useCurrentPath() {
     const pathname = usePathname();
     const router = useRouter();
 
-    const setPath = (path: string) => {
-        const params = new URLSearchParams(search.toString());
-        params.set("path", path);
+    const setPath = useCallback(
+        (path: string) => {
+            const params = new URLSearchParams(search.toString());
+            params.set("path", path);
 
-        const url = `${pathname}?${params.toString()}`;
-        router.push(url);
-    };
+            const url = `${pathname}?${params.toString()}`;
+            router.push(url);
+        },
+        [pathname, router, search]
+    );
 
     const goToParent = () => {
         if (!path) {
@@ -44,7 +47,7 @@ export default function useCurrentPath() {
         if (newPath && newPath !== path) {
             setPath(newPath);
         }
-    }, [search]);
+    }, [config.defaultDir, path, search, setPath]);
 
     return { path, setPath, goToParent, goToDefaultDir };
 }
