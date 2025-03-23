@@ -16,22 +16,24 @@ export default function Updater(): React.ReactElement {
                 <p>Mia Version: {version}</p>
                 <p>Tauri version: {tauriVersion}</p>
             </div>
-            {nextUpdate?.manifest ? (
+            {nextUpdate?.available ? (
                 <div className={styles.updater}>
                     <h4>Update Available</h4>
                     <p>
-                        {DateFormatter.format(
-                            new Date(
-                                nextUpdate.manifest.date
-                                    .split(" ")
-                                    .slice(0, -1)
-                                    .join(" ")
-                            )
-                        )}
+                        {nextUpdate.date
+                            ? DateFormatter.format(
+                                  new Date(
+                                      nextUpdate.date
+                                          .split(" ")
+                                          .slice(0, -1)
+                                          .join(" ")
+                                  )
+                              )
+                            : "Date Unknown"}
                     </p>
-                    <p>{nextUpdate.manifest.body}</p>
+                    <p>{nextUpdate.body}</p>
                     <button onClick={update}>
-                        Update to {nextUpdate.manifest.version}
+                        Update to {nextUpdate.version}
                     </button>
                 </div>
             ) : (
