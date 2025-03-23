@@ -1,7 +1,7 @@
-use std::cmp::PartialEq;
-use serde::{Deserialize, Serialize};
-use tauri::AppHandle;
 use crate::repository::structs::{Entry, EntryType, IDE};
+use serde::{Deserialize, Serialize};
+use std::cmp::PartialEq;
+use tauri::AppHandle;
 
 #[tauri::command]
 pub fn get_config(app_handle: AppHandle) -> Config {
@@ -54,7 +54,7 @@ impl Default for Config {
             output_dir: None,
             color: None,
             default_dir: None,
-            ides: None
+            ides: None,
         }
     }
 }
@@ -74,7 +74,10 @@ impl Config {
         if entry.entry_type == EntryType::Directory {
             self.blacklisted_folder_names.contains(&entry.name)
         } else {
-            self.blacklisted_file_names.contains(&entry.name) || self.blacklisted_file_extensions.contains(&entry.extension.as_ref().unwrap_or(&"".to_string()))
+            self.blacklisted_file_names.contains(&entry.name)
+                || self
+                    .blacklisted_file_extensions
+                    .contains(&entry.extension.as_ref().unwrap_or(&"".to_string()))
         }
     }
 
