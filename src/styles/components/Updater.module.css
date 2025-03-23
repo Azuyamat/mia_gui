@@ -1,0 +1,21 @@
+.updater {
+    background: var(--secondary-background-50);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    color: var(--text-50);
+}
+
+.updater button {
+    text-align: center;
+    min-width: 200px;
+}
+
+.nextUpdate {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--secondary-background-50);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}

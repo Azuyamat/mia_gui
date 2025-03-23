@@ -54,11 +54,6 @@
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.2s;
-    background: var(--background);
-}
-
-.entryActionButton:hover {
-    background: var(--secondary-background-50);
 }
 
 .entryActionButton:disabled {

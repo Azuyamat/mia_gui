@@ -1,7 +1,7 @@
-use std::path::Path;
 use crate::config::Config;
 use crate::repository::structs::{Entry, EntryMeta, EntryType, MiaMeta};
 use crate::repository::utils::get_language_from_extension;
+use std::path::Path;
 
 impl Entry {
     pub fn new(path: &Path) -> Result<Self, std::io::Error> {

@@ -27,8 +27,6 @@ const initialConfig: Config = {
 
     defaultDir: undefined,
     color: undefined,
-
-    ides: [],
 };
 
 export const ConfigProvider = ({ children }: { children: ReactNode }) => {
@@ -51,6 +49,15 @@ export const ConfigProvider = ({ children }: { children: ReactNode }) => {
 
         fetchConfig();
     }, []);
+
+    useEffect(() => {
+        if (config.color) {
+            document.documentElement.style.setProperty(
+                "--accent",
+                config.color
+            );
+        }
+    }, [config]);
 
     return (
         <ConfigContext.Provider value={{ config, setConfig, saveConfig }}>

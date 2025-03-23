@@ -25,7 +25,9 @@ export default function RootLayout({
                     <ToastProvider>
                         <ContextMenuProvider>
                             <Sidebar />
-                            <main>{children}</main>
+                            <main>
+                                <div>{children}</div>
+                            </main>
                             <ContextMenu />
                         </ContextMenuProvider>
                     </ToastProvider>

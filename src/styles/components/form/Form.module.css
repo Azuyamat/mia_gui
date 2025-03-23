@@ -33,6 +33,7 @@
 }
 
 .form input {
+    font-size: 1rem;
     color: var(--text-50);
     width: 100%;
     padding: 1rem 10px;
@@ -47,10 +48,13 @@
     border: var(--border-accent);
 }
 
+.form input[type="file"] {
+    padding: 0.5rem 10px;
+}
+
 .form .description {
     font-size: 1rem;
     color: var(--text-50);
-    font-weight: 200;
 }
 
 .errors {
