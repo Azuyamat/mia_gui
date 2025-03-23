@@ -39,7 +39,9 @@ export default function Updater(): React.ReactElement {
             ) : (
                 <div className={styles.updater}>
                     <h4>No Updates Available</h4>
-                    <button onClick={checkForUpdates}>Check for updates</button>
+                    <button onClick={() => checkForUpdates(true)}>
+                        Check for updates
+                    </button>
                 </div>
             )}
         </>
