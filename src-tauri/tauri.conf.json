@@ -19,7 +19,7 @@
   },
   "productName": "mia",
   "mainBinaryName": "mia",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "identifier": "com.azuyamat.mia",
   "plugins": {
     "updater": {
