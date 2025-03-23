@@ -29,3 +29,6 @@ dist-ssr
 target/
 
 src-next/.next/
+
+# Environment
+.env.local
