@@ -1,22 +1,32 @@
-const SLASH_REGEX = /[\\|\/]/g;
-
-export const splitBySlash = (str: string) => str.split(SLASH_REGEX);
-
-export function stripSlashes(path: string) {
-    return path.replace(SLASH_REGEX, "");
+export class SizeFormatter {
+    static format(size: number): string {
+        if (size < 1024) {
+            return `${size} B`;
+        } else if (size < 1024 * 1024) {
+            return `${(size / 1024).toFixed(2)} KB`;
+        } else if (size < 1024 * 1024 * 1024) {
+            return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+        } else {
+            return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+        }
+    }
 }
 
-export function getLastValidElement(arr: string[] | string) {
-    if (typeof arr === "string") arr = splitBySlash(arr);
-    return arr.reverse().find((e) => e.length > 0) || null;
+export class DateFormatter {
+    static format(date: Date): string {
+        return date.toLocaleString();
+    }
 }
 
-export function compareTwoPaths(path1: string, path2: string) {
-    return stripSlashes(path1) === stripSlashes(path2);
-}
-
-export function fromHexToRGB(hex: string) {
-    let ex = (initial: number) =>
-        parseInt(hex.substring(initial, initial + 2), 16);
-    return ex(1) + ", " + ex(3) + ", " + ex(5);
+export class DurationFormatter {
+    static format(milliseconds: number): string {
+        if (milliseconds < 1000) {
+            return `${milliseconds} ms`;
+        } else if (milliseconds < 1000 * 60) {
+            return `${(milliseconds / 1000).toFixed(2)} s`;
+        } else if (milliseconds < 1000 * 60 * 60) {
+            return `${(milliseconds / (1000 * 60)).toFixed(2)} m`;
+        }
+        return `${(milliseconds / (1000 * 60 * 60)).toFixed(2)} h`;
+    }
 }

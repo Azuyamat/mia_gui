@@ -1,16 +1,18 @@
-import { SettingDefinition } from "@/domain/types/Config.ts";
 import React from "react";
-import { useFieldContext } from "@/hooks/useFormContext.ts";
 import { useStore } from "@tanstack/react-form";
-import styles from "@/styles/components/form/Form.module.css";
+import { useFieldContext } from "@/hooks/useFormContext.ts";
+import { SettingDefinition } from "@/domain/types/Config";
 import Errors from "@/components/form/Errors.tsx";
+import styles from "@/styles/components/form/Form.module.css";
 
-export default function FileField({
+export default function ArrayField({
     definition,
+    ...props
 }: {
     definition: SettingDefinition;
+    [key: string]: any;
 }): React.ReactElement {
-    const field = useFieldContext<string>();
+    const field = useFieldContext<string[]>();
     const errors = useStore(field.store, (state) => state.meta.errors);
 
     return (
@@ -18,9 +20,13 @@ export default function FileField({
             <label>
                 <h4>{definition.label}</h4>
                 <input
+                    {...props}
                     placeholder={`Enter ${definition.label}`}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    type={"file"}
+                    value={field.state.value.join(",")}
+                    onChange={(e) =>
+                        field.handleChange(e.target.value.split(",") || [])
+                    }
+                    type={"text"}
                 />
                 <p className={styles.description}>{definition.description}</p>
                 <Errors errors={errors} />

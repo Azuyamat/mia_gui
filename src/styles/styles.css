@@ -132,11 +132,14 @@ main {
     flex: 1 0 auto;
     height: 100%;
     max-height: var(--page-size);
+    padding: 0 1rem;
+    overflow-y: auto;
+}
+
+main > div {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 1rem;
-    overflow-y: auto;
 }
 
 a {
@@ -174,6 +177,7 @@ h3 {
 }
 
 h4 {
+    color: var(--accent);
     font-size: 1.25rem;
     font-weight: 500;
     margin: 1rem 0;
@@ -188,6 +192,7 @@ h5 {
 p {
     font-size: 1rem;
     margin: 1rem 0;
+    max-width: 500px;
 }
 
 ul {
@@ -208,4 +213,32 @@ ul {
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+button {
+    background: var(--secondary-background-50);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    color: var(--background);
+    background: var(--accent);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--secondary-background-50);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    color: var(--text-50);
 }

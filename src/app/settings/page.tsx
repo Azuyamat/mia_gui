@@ -53,9 +53,23 @@ export default function Page(): React.ReactElement {
                                     }
                                 },
                             }}
-                            children={(field) => (
-                                <field.TextField definition={setting} />
-                            )}
+                            children={(field) => {
+                                const isArray = Array.isArray(
+                                    field.state.value
+                                );
+
+                                if (isArray) {
+                                    return (
+                                        <field.ArrayField
+                                            definition={setting}
+                                        />
+                                    );
+                                } else {
+                                    return (
+                                        <field.TextField definition={setting} />
+                                    );
+                                }
+                            }}
                         />
                     );
                 })}

@@ -1,8 +1,7 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useConfig } from "@/contexts/ConfigContext.tsx";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function useCurrentPath() {
@@ -20,6 +19,28 @@ export default function useCurrentPath() {
         router.push(url);
     };
 
+    const goToParent = () => {
+        if (!path) {
+            return;
+        }
+
+        const newPath = path.split(/[\\\/]/);
+        if (newPath.length <= 2) {
+            return;
+        }
+
+        newPath.pop();
+        setPath(newPath.join("\\"));
+    };
+
+    const goToDefaultDir = () => {
+        if (!config.defaultDir) {
+            return;
+        }
+
+        setPath(config.defaultDir);
+    };
+
     useEffect(() => {
         const newPath = search.get("path") || config.defaultDir;
         if (newPath && newPath !== path) {
@@ -27,5 +48,5 @@ export default function useCurrentPath() {
         }
     }, [search]);
 
-    return { path, setPath };
+    return { path, setPath, goToParent, goToDefaultDir };
 }

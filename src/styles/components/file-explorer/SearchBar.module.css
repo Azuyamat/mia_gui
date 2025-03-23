@@ -12,9 +12,9 @@
 }
 
 #searchIcon {
-    color: inherit;
+    color: var(--accent);
     margin-left: 1rem;
-    font-size: .8rem;
+    font-size: 1rem;
 }
 
 .searchBar {
@@ -24,7 +24,8 @@
     border: none;
     outline: none;
     background: none;
-    padding: 0.5rem 1rem;
+    padding: 1rem;
+    color: var(--text-50);
 }
 
 .peek {

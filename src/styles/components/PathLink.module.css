@@ -1,0 +1,16 @@
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    gap: 10px;
+    background: var(--secondary-background-50);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.link:hover {
+    background: var(--accent);
+    color: var(--background);
+}

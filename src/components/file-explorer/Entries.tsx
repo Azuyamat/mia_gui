@@ -36,6 +36,7 @@ export function EntriesWithButtons({
                         e.stopPropagation();
                         entry.path && zipDir(entry.path);
                     }}
+                    title={"Zip folder"}
                 >
                     <FaFileZipper />
                 </EntryActionButton>
