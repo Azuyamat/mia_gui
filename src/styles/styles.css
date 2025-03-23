@@ -7,26 +7,34 @@
 :root {
     /* Colors */
     --background: rgb(var(--background-rgb));
-    --background-rgb: 30, 30, 30; /* 15, 15, 15 if you want a darker background */
+    --background-rgb:
+        40, 40, 40;
     --background-25: rgba(var(--background-rgb), 0.25);
     --background-50: rgba(var(--background-rgb), 0.5);
     --background-75: rgba(var(--background-rgb), 0.75);
 
+    --secondary-background: rgb(var(--secondary-background-rgb));
+    --secondary-background-rgb: 10, 10, 10;
+    --secondary-background-25: rgba(var(--secondary-background-rgb), 0.25);
+    --secondary-background-50: rgba(var(--secondary-background-rgb), 0.5);
+    --secondary-background-75: rgba(var(--secondary-background-rgb), 0.75);
+
     --text: rgb(var(--text-rgb));
     --text-rgb: 255, 255, 255;
+    --text-10: rgba(var(--text-rgb), 0.1);
     --text-25: rgba(var(--text-rgb), 0.25);
     --text-50: rgba(var(--text-rgb), 0.5);
     --text-75: rgba(var(--text-rgb), 0.75);
 
     --primary: rgb(var(--primary-rgb));
-    --primary-rgb: 240, 201, 80;
+    --primary-rgb: 70, 134, 115;
     --primary-25: rgba(var(--primary-rgb), 0.25);
     --primary-50: rgba(var(--primary-rgb), 0.5);
     --primary-75: rgba(var(--primary-rgb), 0.75);
 
     --accent: rgb(var(--accent-rgb));
     --accent-color: var(--accent);
-    --accent-rgb: 140, 255, 139;
+    --accent-rgb: 100, 154, 145;
     --accent-25: rgba(var(--accent-rgb), 0.25);
     --accent-50: rgba(var(--accent-rgb), 0.5);
     --accent-75: rgba(var(--accent-rgb), 0.75);
@@ -35,13 +43,14 @@
     --gradient: linear-gradient(90deg, var(--gradient-colors));
 
     /* Variables */
-    --border-radius: 5px;
+    --border-radius: 10px;
     --font-serif: "Roboto", sans-serif;
     --font-mono: "Fira Code", monospace;
     --transition: 0.3s;
     --shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
     --border: 1px solid var(--text);
+    --border-10: 1px solid var(--text-10);
     --border-25: 1px solid var(--text-25);
     --border-50: 1px solid var(--text-50);
     --border-75: 1px solid var(--text-75);
@@ -62,19 +71,30 @@
     --blur: blur(10px);
 
     /* Colors */
-    --green: #95ff95;
-    --red: #ff9595;
-    --blue: #9595ff;
-    --yellow: #ffff95;
-}
+    --green: var(--green-rgb);
+    --green-rgb: 0, 255, 0;
+    --green-25: rgba(var(--green-rgb), 0.25);
+    --green-50: rgba(var(--green-rgb), 0.5);
+    --green-75: rgba(var(--green-rgb), 0.75);
+    --red: var(--red-rgb);
+    --red-rgb: 255, 0, 0;
+    --red-25: rgba(var(--red-rgb), 0.25);
+    --red-50: rgba(var(--red-rgb), 0.5);
+    --red-75: rgba(var(--red-rgb), 0.75);
+    --blue: var(--blue-rgb);
+    --blue-rgb: 0, 0, 255;
+    --blue-25: rgba(var(--blue-rgb), 0.25);
+    --blue-50: rgba(var(--blue-rgb), 0.5);
+    --blue-75: rgba(var(--blue-rgb), 0.75);
+    --yellow: var(--yellow-rgb);
+    --yellow-rgb: 255, 255, 0;
+    --yellow-25: rgba(var(--yellow-rgb), 0.25);
+    --yellow-50: rgba(var(--yellow-rgb), 0.5);
+    --yellow-75: rgba(var(--yellow-rgb), 0.75);
 
-#root {
-    width: 100%;
-}
+    --global-padding: 2rem;
 
-html[data-theme="light"] {
-    --background-rgb: 235, 235, 235;
-    --text-rgb: 0, 0, 0;
+    --page-size: calc(100vh - 2 * var(--global-padding));
 }
 
 * {
@@ -88,51 +108,40 @@ html[data-theme="light"] {
     color: var(--background);
 }
 
-html[data-theme="light"] *::selection {
-    background-color: var(--accent);
-    color: var(--text);
-}
-
 html {
     color-scheme: dark;
     scroll-behavior: smooth;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
 }
 
-html,
 body {
-    min-height: 100vh; /* Testing */
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
     font-family: var(--font-serif);
-}
-
-body {
+    background-color: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    min-width: 100vw;
+    padding: var(--global-padding);
     display: flex;
     flex-direction: row;
-    color: var(--text);
-    background-color: var(--background);
-    transition: background-color var(--transition),
-    color var(--transition);
+    gap: 1rem;
+    overscroll-behavior: none;
 }
 
 main {
+    flex: 1 0 auto;
+    height: 100%;
+    max-height: var(--page-size);
     width: 100%;
-    max-width: 100vw;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 0 1rem;
-    margin: 4rem 8rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    overflow-y: auto;
 }
 
 a {
     color: inherit;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 a:hover {
@@ -185,8 +194,6 @@ ul {
     list-style: none;
 }
 
-/* Effects */
-
 .stoke {
     font-style: italic;
     -webkit-text-stroke-color: var(--text);
@@ -199,8 +206,6 @@ ul {
     background-color: var(--accent);
 }
 
-@media (max-width: 1400px) {
-    body {
-        padding-top: 1rem;
-    }
+::-webkit-scrollbar {
+    display: none;
 }

@@ -1,73 +1,59 @@
 pub(crate) mod structs;
 mod utils;
 pub(crate) mod zip;
+mod directory;
+mod entry;
 
-use std::string::ToString;
 use once_cell::sync::Lazy;
+use serde::Deserialize;
+use tauri::AppHandle;
 use crate::{
     config::{get_config},
 };
-use crate::repository::structs::{Entry, EntryType, Language, Repository};
-use crate::repository::utils::get_language_from_extension;
+use crate::repository::structs::{Directory, Language};
 use crate::repository::zip::{Zip};
 
 const LANGUAGES_JSON: &str = include_str!("languages.json");
 pub static LANGUAGES: Lazy<Vec<Language>> = Lazy::new(|| serde_json::from_str::<Vec<Language>>(LANGUAGES_JSON).unwrap());
 
-/*
-Commands
- */
-
-#[tauri::command]
-pub fn get_dir(path: &str) -> Option<Repository> {
-    let config = get_config();
-
-    let real_path = std::path::Path::new(path);
-    if !real_path.exists() { return None; }
-
-    let paths = std::fs::read_dir(real_path).unwrap().map(|entry| {
-        let entry = entry.unwrap();
-        let path = entry.path();
-
-        let name = &entry.file_name().into_string().unwrap();
-        let extension = path.extension().as_ref().map(|ext| ext.to_str().unwrap().to_string());
-        let entry_type = if path.is_dir() { EntryType::Directory } else { EntryType::File };
-
-        Entry {
-            name: name.to_string(),
-            extension: extension.clone(),
-            entry_type,
-            path: path.to_str().unwrap().to_string(),
-            language: get_language_from_extension(&extension),
-            blacklisted: if path.is_dir() {
-                config.blacklisted_folder_names.contains(&name.to_string())
-            } else {
-                config.blacklisted_file_names.contains(&name.to_string()) || config.blacklisted_file_extensions.contains(&extension.unwrap_or("".to_string()))
-            },
-        }
-    }).collect();
-    Some(Repository {
-        path: path.to_string(),
-        exists: true,
-        paths,
-    })
+#[derive(Deserialize)]
+pub struct GetDirOptions {
+    pub show_hidden: bool,
+    pub show_blacklisted: bool,
+    pub fuzzy: bool, // Search w/ parent directory
 }
 
 #[tauri::command]
-pub fn zip_dir(path: &str) -> Option<Zip> {
-    let real_path = std::path::Path::new(path);
-    if !real_path.exists() { return None; }
+pub fn get_dir(app_handle: AppHandle, path: &str, options: GetDirOptions) -> Option<Directory> {
+    let config = get_config(app_handle);
+    let mut real_path = std::path::Path::new(path);
+    if !real_path.exists() && options.fuzzy {
+        real_path = match real_path.parent() {
+            Some(parent) => parent,
+            None => return None,
+        };
+        if !real_path.exists() { return None; }
+    }
 
-    let zip = Zip::new(path, get_config()).unwrap();
-    Some(zip)
+    let mut directory = match Directory::new(real_path) {
+        Ok(directory) => directory,
+        Err(_) => return None,
+    };
+
+    directory.mia_meta(&config);
+    directory.retain_hidden(options.show_hidden);
+    directory.retain_blacklisted(options.show_blacklisted);
+
+    Some(directory)
 }
 
 #[tauri::command]
-pub fn open_in_ide(path: &str, ide: &str) {
-    let response = std::process::Command::new(ide)
-        .arg(path)
-        .spawn();
-    if response.is_err() {
-        println!("Failed to open in IDE: {}", response.err().unwrap().to_string());
+pub fn zip_dir(app_handle: AppHandle, path: &str) -> Option<Zip> {
+    let real_path = std::path::Path::new(path);
+    if !real_path.exists() { return None; }
+
+    match Zip::new(path, get_config(app_handle)) {
+        Ok(zip) => Some(zip),
+        Err(_) => None,
     }
 }

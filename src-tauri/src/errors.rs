@@ -10,6 +10,4 @@ pub enum MiaError {
     IO(#[from] std::io::Error),
     #[error("path not found")]
     PathNotFound,
-    #[error("unknown mia error")]
-    Unknown,
 }

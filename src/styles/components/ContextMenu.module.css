@@ -1,0 +1,38 @@
+.contextMenu {
+    flex: 0 0 auto;
+    min-height: var(--page-size);
+    background: var(--secondary-background-50);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    transition: background-color 0.1s, width 0.1s;
+}
+
+.contextMenu[data-is-visible="true"] {
+    width: 200px;
+}
+
+.contextMenu[data-is-visible="false"] {
+    width: 80px;
+    background: transparent;
+}
+
+.contextMenu[data-is-visible="false"] .content {
+    display: none;
+}
+
+#toggleButton {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: var(--secondary-background-50);
+}
+
+.contextMenu[data-is-visible="true"] #toggleButton:hover {
+    background-color: var(--background);
+}
