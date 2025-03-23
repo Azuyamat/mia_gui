@@ -23,7 +23,7 @@
   "identifier": "com.azuyamat.mia",
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEZGMDExNDE1QUNFMTA5QUIKUldTckNlR3NGUlFCLzJiL2xkVTd4c052eGg2STVqb2l2Y09xSVJ3RHFoSm9naUJYc1AxN0s2MTUK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEI4NjU0QTVERUVFOTRFOTIKUldTU1R1bnVYVXBsdUdkRXFpVE11bkowRU9lNTB1NHVZSzluODhVZ1Y3WGg2ODVWMk1rOXA4Uk8K",
       "endpoints": [
         "https://github.com/Azuyamat/mia_gui/releases/latest/download/latest.json"
       ],

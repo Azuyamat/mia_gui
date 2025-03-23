@@ -26,7 +26,7 @@ export default function useZipDir() {
             editToast(
                 id,
                 ToastFactory.createSuccessToast(
-                    `Directory zipped in ${elapsedSeconds} seconds!`
+                    `Directory zipped in ${elapsedSeconds} seconds! <p>jeff</p>`
                 )
             );
         } catch (error) {
