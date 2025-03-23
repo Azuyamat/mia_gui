@@ -7,6 +7,7 @@ pub(crate) mod zip;
 use crate::config::get_config;
 use crate::repository::structs::{Directory, Language};
 use crate::repository::zip::Zip;
+use log::debug;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use tauri::AppHandle;
@@ -52,6 +53,7 @@ pub fn get_dir(app_handle: AppHandle, path: &str, options: GetDirOptions) -> Opt
 pub fn zip_dir(app_handle: AppHandle, path: &str) -> Option<Zip> {
     let real_path = std::path::Path::new(path);
     if !real_path.exists() {
+        debug!("Path does not exist: {}", path);
         return None;
     }
 
