@@ -29,19 +29,20 @@ const initialConfig: Config = {
 };
 
 export const ConfigProvider = ({ children }: { children: ReactNode }) => {
+    const [isClient, setIsClient] = useState(false);
     const [config, setConfig] = useState<Config>(initialConfig);
 
     const saveConfig = async () => {
-        if (typeof window === "undefined" || !config) {
+        if (!isClient) {
             return;
         }
-
         const { invoke } = await import("@tauri-apps/api/tauri");
 
         await invoke("save_config", config);
     };
 
     useEffect(() => {
+        setIsClient(true);
         const fetchConfig = async () => {
             if (typeof window === "undefined") {
                 return;
