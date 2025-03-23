@@ -139,6 +139,6 @@
     // "allowUnreachableCode": true,                     /* Disable error reporting for unreachable code. */
     "skipLibCheck": true
   },
-  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
+  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": ["./node_modules"]
 }
