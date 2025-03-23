@@ -7,13 +7,12 @@ import styles from "@/styles/components/form/Form.module.css";
 import { SettingDefinition } from "@/domain/types/Config.ts";
 import Errors from "@/components/form/Errors.tsx";
 
-export default function TextField({
-    definition,
-    ...props
-}: {
-    definition: SettingDefinition;
-    props: React.InputHTMLAttributes<HTMLInputElement>;
-}): React.ReactElement {
+export default function TextField(
+    props: {
+        definition: SettingDefinition;
+    } & React.InputHTMLAttributes<HTMLInputElement>
+): React.ReactElement {
+    const { definition, ...rest } = props;
     const field = useFieldContext<string>();
     const errors = useStore(field.store, (state) => state.meta.errors);
 
@@ -22,7 +21,7 @@ export default function TextField({
             <label>
                 <h4>{definition.label}</h4>
                 <input
-                    {...props}
+                    {...rest}
                     placeholder={`Enter ${definition.label}`}
                     value={field.state.value || ""}
                     onChange={(e) => field.handleChange(e.target.value)}
