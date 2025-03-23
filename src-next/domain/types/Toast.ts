@@ -1,6 +1,8 @@
 import { ToastType } from "@/domain/enums/ToastType.ts";
 
-export type Toast = {
+export type Toast = BasicToast;
+
+export type BasicToast = {
     id: string;
     message: string;
     type: ToastType;

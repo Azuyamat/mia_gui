@@ -4,7 +4,7 @@ use serde::Serialize;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use zip::ZipWriter;
 
 #[derive(Serialize)]
@@ -13,8 +13,6 @@ pub struct Zip {
     pub base_path: PathBuf,
     pub config: Config,
     pub output_path: PathBuf,
-    pub line_count: usize,
-    pub messages: Vec<String>,
 
     #[serde(skip)]
     pub zip: ZipWriter<File>,
@@ -22,13 +20,17 @@ pub struct Zip {
 
 impl Zip {
     pub fn new(base_path: &str, config: Config) -> Result<Zip, MiaError> {
-        let path = std::path::Path::new(base_path);
+        println!("Zipping directory: {:?}", base_path);
+        let path = Path::new(base_path);
         if !path.exists() {
             return Err(MiaError::PathNotFound);
         }
 
         // Naming configuration
-        let repository_name = path.file_name().unwrap().to_str().unwrap().to_string();
+        let repository_name = match path.file_name() {
+            Some(name) => name.to_str().unwrap(),
+            None => "repository",
+        };
         let mut name = config.naming.clone();
         name = name.replace(":name", &repository_name);
         name = name.replace(
@@ -36,17 +38,25 @@ impl Zip {
             &chrono::Local::now().format("%Y-%m-%d").to_string(),
         );
 
-        // Check if output directory exists (else default to current directory)
-        let output_dir = config.output_dir.clone().unwrap_or("".to_string());
-        let mut output_path = std::path::Path::new(&output_dir);
+        let binding = config.output_dir.clone();
+        let output_path = match binding {
+            Some(dir) => {
+                if dir.is_empty() {
+                    PathBuf::from(path)
+                }
+                else {
+                    PathBuf::from(dir)
+                }
+            },
+            None => PathBuf::from(path),
+        };
         fs::create_dir_all(&output_path)?;
-        if !output_path.exists() {
-            output_path = path;
-        }
+        println!("Created directory: {:?}", output_path);
 
         // Create zip file
         let zip_path = &output_path.join(&name).with_extension("zip");
         let zip_file = File::create(zip_path)?;
+        println!("Zip file created: {:?}", zip_file);
         let zip = ZipWriter::new(zip_file);
 
         // Start zip
@@ -55,11 +65,10 @@ impl Zip {
             base_path: path.to_path_buf(),
             config,
             output_path: zip_path.clone(),
-            line_count: 0,
-            messages: vec![],
             zip,
         };
-        zip.zip(&path.to_path_buf())?;
+        let path = path.to_path_buf();
+        zip.zip(&path)?;
         zip.zip.finish()?;
 
         // Return zip struct
@@ -89,25 +98,13 @@ impl Zip {
                 return Ok(());
             }
 
-            let warns = vec!["TODO", "FIXME"];
-            let file = fs::read_to_string(path)?;
-            for warn in warns {
-                // Iterate lines indexed
-                file.lines().enumerate().for_each(|(i, line)| {
-                    if line.contains(warn) {
-                        self.messages
-                            .push(format!("{}:{}: {}", local_path, i + 1, line));
-                    }
-                });
-            }
-
-            // Zip file
+            let file_content = fs::read(&path)?;
             self.zip
                 .start_file(local_path, zip::write::FileOptions::default())?;
-            self.zip.write_all(fs::read(path)?.as_slice())?;
+            self.zip.write_all(&file_content)?;
             return Ok(());
         }
-        // Check if config excludes folder
+        
         if self
             .config
             .blacklisted_folder_names

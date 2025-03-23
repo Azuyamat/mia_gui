@@ -7,6 +7,7 @@ const ZIP_DIR_COMMAND = "zip_dir";
 
 export default function useZipDir() {
     const { addToast, editToast } = useToast();
+
     return async (path: string) => {
         const start = Date.now();
         const id = addToast(
@@ -42,6 +43,4 @@ type ZipDirResult = {
     base_path: string;
     config: Config;
     output_path: string;
-    line_count: number;
-    messages: string[];
 };

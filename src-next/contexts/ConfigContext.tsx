@@ -30,26 +30,16 @@ const initialConfig: Config = {
 };
 
 export const ConfigProvider = ({ children }: { children: ReactNode }) => {
-    const [isClient, setIsClient] = useState(false);
     const [config, setConfig] = useState<Config>(initialConfig);
 
     const saveConfig = async () => {
-        if (!isClient) {
-            return;
-        }
-
         await invoke("save_config", {
             config: config,
         });
     };
 
     useEffect(() => {
-        setIsClient(true);
         const fetchConfig = async () => {
-            if (typeof window === "undefined") {
-                return;
-            }
-
             const config: Config = await invoke("get_config");
             setConfig(config);
         };

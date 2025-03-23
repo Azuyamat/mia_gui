@@ -1,8 +1,6 @@
 import { ActiveToast } from "@/domain/types/Toast.ts";
 import styles from "@/styles/components/ToastWrapper.module.css";
-import React from "react";
-import { ToastType } from "@/domain/enums/ToastType.ts";
-import { FaInfo } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 
 export default function ToastWrapper({ toasts }: { toasts: ActiveToast[] }) {
     return (
@@ -16,18 +14,35 @@ export default function ToastWrapper({ toasts }: { toasts: ActiveToast[] }) {
     );
 }
 
-const icons: Record<ToastType, React.ReactElement> = {
-    success: <FaInfo />,
-    error: <FaInfo />,
-    info: <FaInfo />,
-    warning: <FaInfo />,
-};
+// const icons: Record<ToastType, React.ReactElement> = {
+//     success: <FaInfo />,
+//     error: <FaInfo />,
+//     info: <FaInfo />,
+//     warning: <FaInfo />,
+// };
 
 function ToastBox({ toast }: { toast: ActiveToast }) {
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setProgress(
+                ((Date.now() - toast.startTimestamp) / toast.duration) * 100
+            );
+        }, 1);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div data-type={toast.type} className={styles.toast}>
-            <span className={styles.icon}>{icons[toast.type]}</span>
-            {toast.message}
+            <div
+                className={styles.progress}
+                style={{
+                    width: `${progress}%`,
+                }}
+            />
+            <div>{toast.message}</div>
         </div>
     );
 }

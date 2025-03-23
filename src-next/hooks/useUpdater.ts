@@ -10,17 +10,22 @@ export default function useUpdater() {
     const [tauriVersion, setTauriVersion] = useState<string>();
     const [nextUpdate, setNextUpdate] = useState<Update | null>(null);
 
-    const checkForUpdates = async () => {
-        const toastId = addToast(
-            ToastFactory.createInfoToast("Checking for updates...")
-        );
+    const checkForUpdates = async (sendToasts: boolean) => {
+        let toastId = null;
+        if (sendToasts) {
+            toastId = addToast(
+                ToastFactory.createInfoToast("Checking for updates...")
+            );
+        }
         setVersion(await getVersion());
         setTauriVersion(await getTauriVersion());
         setNextUpdate(await check());
-        editToast(
-            toastId,
-            ToastFactory.createSuccessToast("Update check complete")
-        );
+        if (sendToasts && toastId) {
+            editToast(
+                toastId,
+                ToastFactory.createSuccessToast("Update check complete")
+            );
+        }
     };
 
     const update = async () => {
@@ -31,7 +36,7 @@ export default function useUpdater() {
     };
 
     useEffect(() => {
-        checkForUpdates();
+        checkForUpdates(false);
     }, []);
 
     return { version, tauriVersion, nextUpdate, checkForUpdates, update };

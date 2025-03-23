@@ -34,6 +34,12 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const editToast = (id: string, newToast: Toast) => {
+        const exists = activeToasts.some((toast) => toast.id === id);
+        if (!exists) {
+            addToast(newToast);
+            return;
+        }
+
         setActiveToasts((prev) =>
             prev.map((toast) => {
                 if (toast.id === id) {
