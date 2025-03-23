@@ -1,29 +1,25 @@
-use std::path::Path;
 use crate::config::Config;
 use crate::repository::structs::{Directory, Entry};
+use std::path::Path;
 
 impl Directory {
     pub fn new(path: &Path) -> Result<Self, std::io::Error> {
-        Ok(
-            Self {
-                entry: Entry::new(path)?,
-                children: if path.is_dir() {
-                    path.read_dir()?
-                        .filter_map(|entry| {
-                            match entry {
-                                Ok(entry) => match Entry::new(&entry.path()) {
-                                    Ok(entry) => Some(entry),
-                                    Err(_) => None,
-                                },
-                                Err(_) => None,
-                            }
-                        })
-                        .collect()
-                } else {
-                    Vec::new()
-                }
-            }
-        )
+        Ok(Self {
+            entry: Entry::new(path)?,
+            children: if path.is_dir() {
+                path.read_dir()?
+                    .filter_map(|entry| match entry {
+                        Ok(entry) => match Entry::new(&entry.path()) {
+                            Ok(entry) => Some(entry),
+                            Err(_) => None,
+                        },
+                        Err(_) => None,
+                    })
+                    .collect()
+            } else {
+                Vec::new()
+            },
+        })
     }
 
     pub fn retain_hidden(&mut self, show_hidden: bool) {

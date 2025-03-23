@@ -1,6 +1,6 @@
 import { useToast } from "@/contexts/ToastContext.tsx";
 import ToastFactory from "@/domain/factories/ToastFactory.ts";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 
 const ZIP_DIR_COMMAND = "zip_dir";
 

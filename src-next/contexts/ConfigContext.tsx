@@ -8,6 +8,7 @@ import {
     useState,
 } from "react";
 import { Config } from "@/domain/types/Config.ts";
+import { invoke } from "@tauri-apps/api/core";
 
 type ConfigContextProps = {
     config: Config;
@@ -36,9 +37,10 @@ export const ConfigProvider = ({ children }: { children: ReactNode }) => {
         if (!isClient) {
             return;
         }
-        const { invoke } = await import("@tauri-apps/api/tauri");
 
-        await invoke("save_config", config);
+        await invoke("save_config", {
+            config: config,
+        });
     };
 
     useEffect(() => {
@@ -48,7 +50,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }) => {
                 return;
             }
 
-            const { invoke } = await import("@tauri-apps/api/tauri");
             const config: Config = await invoke("get_config");
             setConfig(config);
         };

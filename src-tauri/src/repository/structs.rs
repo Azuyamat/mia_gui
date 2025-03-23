@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Language {
     pub name: String,
-    pub extensions: Vec<String>
+    pub extensions: Vec<String>,
 }
 
 #[derive(Serialize)]
@@ -53,7 +53,7 @@ pub struct Tag {
 #[derive(Serialize)]
 pub enum EntryType {
     File,
-    Directory
+    Directory,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]

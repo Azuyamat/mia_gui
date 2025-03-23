@@ -1,56 +1,50 @@
 {
-    "build": {
-        "beforeDevCommand": "npm run next dev",
-        "beforeBuildCommand": "npm run next-build",
-        "devPath": "http://localhost:3000",
-        "distDir": "../dist"
-    },
-    "package": {
-        "productName": "mia",
-        "version": "2.0.9"
-    },
-    "tauri": {
-        "allowlist": {
-            "all": false,
-            "shell": {
-                "all": false,
-                "open": true
-            }
-        },
-        "bundle": {
-            "active": true,
-            "copyright": "Azuyamat",
-            "targets": "all",
-            "identifier": "com.azuyamat.mia",
-            "icon": [
-                "icons/32x32.png",
-                "icons/128x128.png",
-                "icons/icon.ico",
-                "icons/icon.png"
-            ]
-        },
-        "security": {
-            "csp": null
-        },
-        "windows": [
-            {
-                "fullscreen": false,
-                "resizable": true,
-                "title": "Mia",
-                "width": 1000,
-                "height": 800
-            }
-        ],
-        "updater": {
-            "active": true,
-            "endpoints": [
-                "https://github.com/Azuyamat/mia_gui/releases/latest/download/latest.json"
-            ],
-            "dialog": false,
-            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQwQUJBNkRFRThBQUVEREYKUldUZjdhcm8zcWFyMEZZRVNBb1RTUDhhekNwcFBObmJjTy96SWMvSnRzQ3I3S2lTczBXSzBmWWIK",
-            "windows": {
-                "installMode": "passive"
-            }
-        }
+  "build": {
+    "beforeDevCommand": "npm run next dev",
+    "beforeBuildCommand": "npm run next-build",
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:3000"
+  },
+  "bundle": {
+    "active": true,
+    "copyright": "Azuyamat",
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/icon.ico",
+      "icons/icon.png"
+    ],
+    "createUpdaterArtifacts": "v1Compatible"
+  },
+  "productName": "mia",
+  "mainBinaryName": "mia",
+  "version": "2.0.9",
+  "identifier": "com.azuyamat.mia",
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQwQUJBNkRFRThBQUVEREYKUldUZjdhcm8zcWFyMEZZRVNBb1RTUDhhekNwcFBObmJjTy96SWMvSnRzQ3I3S2lTczBXSzBmWWIK",
+      "endpoints": [
+        "https://github.com/Azuyamat/mia_gui/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
     }
+  },
+  "app": {
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Mia",
+        "width": 1000,
+        "height": 800,
+        "useHttpsScheme": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
 }

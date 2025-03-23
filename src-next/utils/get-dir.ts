@@ -1,5 +1,5 @@
 import { Directory } from "@/domain/types/Directory.ts";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 
 const GET_DIR_COMMAND = "get_dir";
 

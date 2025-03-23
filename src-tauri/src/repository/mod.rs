@@ -1,20 +1,19 @@
+mod directory;
+mod entry;
 pub(crate) mod structs;
 mod utils;
 pub(crate) mod zip;
-mod directory;
-mod entry;
 
+use crate::config::get_config;
+use crate::repository::structs::{Directory, Language};
+use crate::repository::zip::Zip;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use tauri::AppHandle;
-use crate::{
-    config::{get_config},
-};
-use crate::repository::structs::{Directory, Language};
-use crate::repository::zip::{Zip};
 
 const LANGUAGES_JSON: &str = include_str!("languages.json");
-pub static LANGUAGES: Lazy<Vec<Language>> = Lazy::new(|| serde_json::from_str::<Vec<Language>>(LANGUAGES_JSON).unwrap());
+pub static LANGUAGES: Lazy<Vec<Language>> =
+    Lazy::new(|| serde_json::from_str::<Vec<Language>>(LANGUAGES_JSON).unwrap());
 
 #[derive(Deserialize)]
 pub struct GetDirOptions {
@@ -32,7 +31,9 @@ pub fn get_dir(app_handle: AppHandle, path: &str, options: GetDirOptions) -> Opt
             Some(parent) => parent,
             None => return None,
         };
-        if !real_path.exists() { return None; }
+        if !real_path.exists() {
+            return None;
+        }
     }
 
     let mut directory = match Directory::new(real_path) {
@@ -50,7 +51,9 @@ pub fn get_dir(app_handle: AppHandle, path: &str, options: GetDirOptions) -> Opt
 #[tauri::command]
 pub fn zip_dir(app_handle: AppHandle, path: &str) -> Option<Zip> {
     let real_path = std::path::Path::new(path);
-    if !real_path.exists() { return None; }
+    if !real_path.exists() {
+        return None;
+    }
 
     match Zip::new(path, get_config(app_handle)) {
         Ok(zip) => Some(zip),
