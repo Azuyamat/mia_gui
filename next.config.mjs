@@ -2,6 +2,10 @@
 const nextConfig = {
     output: "export", // Outputs a Single-Page Application (SPA).
     distDir: "../dist", // Changes the build output directory to `./dist/`.
+    reactStrictMode: true, // Enables React strict mode.
+    eslint: {
+        ignoreDuringBuilds: true, // Ignores ESLint during builds.
+    },
 };
 
 export default nextConfig;

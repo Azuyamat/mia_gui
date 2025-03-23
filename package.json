@@ -6,11 +6,12 @@
     "scripts": {
         "dev": "tauri dev",
         "tauri": "tauri",
-        "lint": "next lint src-next",
+        "lint": "next lint -c eslint.config.mjs src-next",
         "next": "next src-next",
         "next-build": "next build src-next"
     },
     "dependencies": {
+        "@eslint/eslintrc": "^3.3.1",
         "@tanstack/react-form": "^1.1.2",
         "@tauri-apps/api": "^2.0.0",
         "@tauri-apps/plugin-shell": "^2.2.0",
@@ -29,6 +30,7 @@
         "@types/react-dom": "^19.0.4",
         "eslint": "^9.23.0",
         "eslint-config-next": "^15.2.3",
+        "eslint-config-prettier": "^10.1.1",
         "prettier": "3.5.3",
         "typescript": "^5.8.2"
     }
