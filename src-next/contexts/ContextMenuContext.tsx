@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode, createContext, useState, useContext } from "react";
 
 type ContextMenuContextProps = {

@@ -2,14 +2,14 @@
 
 import React from "react";
 import useCurrentPath from "@/hooks/useCurrentPath.ts";
+import FileExplorer from "@/components/file-explorer/FileExplorer.tsx";
 
 export default function Page(): React.ReactElement {
     const { path } = useCurrentPath();
 
     return (
         <div>
-            {path}
-            {/*<FileExplorer path={path} />*/}
+            <FileExplorer path={path} />
         </div>
     );
 }

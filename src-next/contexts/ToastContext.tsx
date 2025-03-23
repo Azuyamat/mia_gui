@@ -1,5 +1,3 @@
-"use client";
-
 import { ActiveToast, Toast } from "@/domain/types/Toast.ts";
 import {
     createContext,
