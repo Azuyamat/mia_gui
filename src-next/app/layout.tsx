@@ -1,27 +1,20 @@
-"use client";
-
 import React from "react";
 import "@/styles/styles.css";
 import Sidebar from "@/components/Sidebar.tsx";
 import ContextMenu from "@/components/ContextMenu.tsx";
-import dynamic from "next/dynamic";
 import { ContextMenuProvider } from "@/contexts/ContextMenuContext.tsx";
 import { ToastProvider } from "@/contexts/ToastContext.tsx";
+import { ConfigProvider } from "@/contexts/ConfigContext.tsx";
 
 export default function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const DynamicConfigProvider = dynamic(
-        () => import("@/components/DynamicConfigWrapper"),
-        { ssr: false }
-    );
-
     return (
         <html>
             <body>
-                <DynamicConfigProvider>
+                <ConfigProvider>
                     <ToastProvider>
                         <ContextMenuProvider>
                             <Sidebar />
@@ -31,7 +24,7 @@ export default function RootLayout({
                             <ContextMenu />
                         </ContextMenuProvider>
                     </ToastProvider>
-                </DynamicConfigProvider>
+                </ConfigProvider>
             </body>
         </html>
     );

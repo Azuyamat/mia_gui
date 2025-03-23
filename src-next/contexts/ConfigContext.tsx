@@ -1,9 +1,11 @@
+"use client";
+
 import {
-    ReactNode,
     createContext,
-    useState,
+    ReactNode,
     useContext,
     useEffect,
+    useState,
 } from "react";
 import { Config } from "@/domain/types/Config.ts";
 import ConfigService from "@/domain/services/ConfigService.ts";

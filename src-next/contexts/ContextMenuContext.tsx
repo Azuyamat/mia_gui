@@ -1,4 +1,6 @@
-import { ReactNode, createContext, useState, useContext } from "react";
+"use client";
+
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type ContextMenuContextProps = {
     content: ReactNode | null;
