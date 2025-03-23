@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "tauri dev",
         "tauri": "tauri",
-        "lint": "next lint -c eslint.config.mjs src-next",
+        "lint": "next lint src-next",
         "next": "next src-next",
         "next-build": "next build src-next"
     },

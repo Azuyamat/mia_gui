@@ -27,3 +27,5 @@ dist-ssr
 
 # Ignore target
 target/
+
+src-next/.next/
