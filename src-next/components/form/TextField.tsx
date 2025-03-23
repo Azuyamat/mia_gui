@@ -12,7 +12,7 @@ export default function TextField({
     ...props
 }: {
     definition: SettingDefinition;
-    [key: string]: any;
+    props: React.InputHTMLAttributes<HTMLInputElement>;
 }): React.ReactElement {
     const field = useFieldContext<string>();
     const errors = useStore(field.store, (state) => state.meta.errors);

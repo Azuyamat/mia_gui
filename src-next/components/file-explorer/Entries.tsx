@@ -27,14 +27,16 @@ export function EntriesWithButtons({
     const zipDir = useZipDir();
 
     const defaultButtons = (entry: Entry) => {
-        let list = [];
+        const list = [];
         if (entry.entryType == EntryType.DIRECTORY) {
             list.push(
                 <EntryActionButton
                     key="zip"
                     onClick={(e) => {
                         e.stopPropagation();
-                        entry.path && zipDir(entry.path);
+                        if (entry.path) {
+                            zipDir(entry.path)
+                        }
                     }}
                     title={"Zip folder"}
                 >

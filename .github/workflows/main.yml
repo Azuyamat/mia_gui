@@ -19,45 +19,22 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - name: Cache Node.js modules
-              uses: actions/cache@v3
-              with:
-                path: ~/.npm
-                key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-node-
-
             - name: Setup node
               uses: actions/setup-node@v4
               with:
                   node-version: 20
 
+            - uses: actions/cache@v4
+              with:
+                path: |
+                  ~/.npm
+                  ${{ github.workspace }}/.next/cache
+                key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+                restore-keys: |
+                  ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
             - name: Install Rust stable
               uses: dtolnay/rust-toolchain@stable
-
-            - name: Cache Rust cargo registry
-              uses: actions/cache@v3
-              with:
-                path: ~/.cargo/registry
-                key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-                restore-keys: |
-                  ${{ runner.os }}-cargo-registry-
-                  
-                        - name: Cache Rust cargo index
-            - uses: actions/cache@v3
-              with:
-                path: ~/.cargo/index
-                key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-                restore-keys: |
-                  ${{ runner.os }}-cargo-index-
-
-            - name: Cache Rust cargo build
-              uses: actions/cache@v3
-              with:
-                path: target
-                key: ${{ runner.os }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
-                restore-keys: |
-                  ${{ runner.os }}-cargo-build-
 
             - name: Install dependencies (Ubuntu only)
               if: matrix.platform == 'ubuntu-20.04'
