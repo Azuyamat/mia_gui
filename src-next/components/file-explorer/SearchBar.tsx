@@ -20,7 +20,7 @@ export default function SearchBar(): React.ReactElement {
         } else {
             setPath(path || "");
         }
-    }, [query]);
+    }, [query, path, setPath]);
 
     useEffect(() => {
         setQuery(path || "");
