@@ -18,7 +18,7 @@ export const configSchema = z.object({
     blacklistedFolderNames: z.array(z.string()),
     blacklistedFileExtensions: z.array(z.string()),
     defaultDir: z.string().optional(),
-    color: z.string().includes("#").length(7).optional(),
+    color: z.string().optional().or(z.string().includes("#").length(7)),
 });
 
 export type ConfigSchema = z.infer<typeof configSchema>;

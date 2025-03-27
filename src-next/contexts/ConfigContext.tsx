@@ -41,7 +41,6 @@ export const ConfigProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const fetchConfig = async () => {
-        console.log("Fetching config...");
         const config: Config = await invoke("get_config");
         setConfig(config);
     };

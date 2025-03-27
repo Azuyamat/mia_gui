@@ -18,7 +18,6 @@ export default function Page(): React.ReactElement {
             const id = addToast(
                 ToastFactory.createInfoToast("Saving settings...")
             );
-            console.log(`Saving settings:`, value);
             saveConfig(value);
             editToast(
                 id,

@@ -13,7 +13,6 @@ pub fn get_config(app_handle: AppHandle) -> Config {
 
 #[tauri::command]
 pub fn save_config(app_handle: AppHandle, config: Config) {
-    println!("Saving config: {:?}", config);
     let app_version = &app_handle.package_info().version.major;
     let app_name = format!("mia_v{}", app_version);
     let action = confy::store(&app_name, None, config);
