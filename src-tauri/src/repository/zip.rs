@@ -43,11 +43,10 @@ impl Zip {
             Some(dir) => {
                 if dir.is_empty() {
                     PathBuf::from(path)
-                }
-                else {
+                } else {
                     PathBuf::from(dir)
                 }
-            },
+            }
             None => PathBuf::from(path),
         };
         fs::create_dir_all(&output_path)?;
@@ -104,7 +103,7 @@ impl Zip {
             self.zip.write_all(&file_content)?;
             return Ok(());
         }
-        
+
         if self
             .config
             .blacklisted_folder_names

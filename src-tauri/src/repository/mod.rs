@@ -60,6 +60,6 @@ pub fn zip_dir(app_handle: AppHandle, path: &str) -> Option<Zip> {
         Err(e) => {
             println!("Error: {:?}", e);
             None
-        },
+        }
     }
 }

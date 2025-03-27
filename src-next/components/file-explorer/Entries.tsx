@@ -6,6 +6,8 @@ import { EntrySort } from "@/domain/enums/EntrySort.ts";
 import EntryActionButton from "@/components/file-explorer/EntryActionButton.tsx";
 import { FaFileZipper } from "react-icons/fa6";
 import useZipDir from "@/hooks/useZipDir.ts";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
+import { FaFolderOpen } from "react-icons/fa";
 
 type SimpleEntriesProps = {
     entries: Entry[];
@@ -31,11 +33,11 @@ export function EntriesWithButtons({
         if (entry.entryType == EntryType.DIRECTORY) {
             list.push(
                 <EntryActionButton
-                    key="zip"
+                    key={"zip"}
                     onClick={(e) => {
                         e.stopPropagation();
                         if (entry.path) {
-                            zipDir(entry.path)
+                            zipDir(entry.path);
                         }
                     }}
                     title={"Zip folder"}
@@ -44,6 +46,20 @@ export function EntriesWithButtons({
                 </EntryActionButton>
             );
         }
+        list.push(
+            <EntryActionButton
+                key={"open"}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    if (entry.path) {
+                        revealItemInDir(entry.path);
+                    }
+                }}
+                title={"Open folder"}
+            >
+                <FaFolderOpen />
+            </EntryActionButton>
+        );
         return list;
     };
     const entriesButton = buttons

@@ -1,7 +1,11 @@
+"use client";
+
 import styles from "../styles/components/Sidebar.module.css";
 import React, { JSX } from "react";
-import { FaCog, FaFolder, FaHome } from "react-icons/fa";
+import { FaCog, FaFolder, FaFolderOpen, FaHome } from "react-icons/fa";
 import Link from "next/link";
+import { revealItemInDir } from "@tauri-apps/plugin-opener";
+import { useConfig } from "@/contexts/ConfigContext.tsx";
 
 const items: {
     [key: string]: {
@@ -24,6 +28,8 @@ const items: {
 };
 
 export default function Sidebar(): React.ReactElement {
+    const { config } = useConfig();
+
     return (
         <div className={styles.sidebar}>
             <ul>
@@ -40,6 +46,23 @@ export default function Sidebar(): React.ReactElement {
                         );
                     })}
                 </section>
+                {config.outputDir && (
+                    <section>
+                        <li>
+                            <button
+                                className={styles.link}
+                                title={"Open output directory"}
+                                onClick={() => {
+                                    if (config.outputDir) {
+                                        revealItemInDir(config.outputDir);
+                                    }
+                                }}
+                            >
+                                <FaFolderOpen />
+                            </button>
+                        </li>
+                    </section>
+                )}
             </ul>
         </div>
     );
