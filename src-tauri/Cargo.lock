@@ -2055,7 +2055,6 @@ version = "0.0.0"
 dependencies = [
  "chrono",
  "confy",
- "log",
  "once_cell",
  "serde",
  "serde_json",
